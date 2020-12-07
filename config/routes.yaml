@@ -1,0 +1,18 @@
+homepage:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+      path: /admin/origin
+      permanent: true
+
+admin.origin.list:
+  path: /admin/origin
+  controller: App\Controller\Admin\OriginController::list
+  methods: GET|HEAD
+
+proxy:
+  path: /proxy/{origin}/{url?}
+  controller: App\Controller\Proxy\ProxyController::proxy
+  requirements:
+    origin: '\w+'
+    url: '.+'

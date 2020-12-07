@@ -1,0 +1,9 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    {% if origins is not empty %}
+    {% for origin, host in origins %}
+        <div>{{ origin }} : {{ host }}</div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
