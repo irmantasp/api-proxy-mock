@@ -26,9 +26,9 @@ abstract class AbstractFileSystemRepository implements RepositoryInterface
             'body' => $request->getBody(),
         ];
 
-        $component_string = json_encode($components);
+        dump($this->nameProvider->slugify($request->getUri()->getPath() . '?' . $request->getUri()->getQuery()));
 
-        return md5($component_string);
+        return '';
     }
 
     abstract public function load(string $name): array;

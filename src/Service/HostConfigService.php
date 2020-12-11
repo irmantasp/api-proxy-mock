@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Origin;
+
 class HostConfigService implements HostConfigServiceInterface
 {
 
@@ -19,5 +21,18 @@ class HostConfigService implements HostConfigServiceInterface
             'myjsonservertypecodecomtypecodedemo' => 'https://my-json-server.typicode.com/typecode/demo/',
             'localhost8088mockservicesoapbinding' => 'http://localhost:8088/mockServiceSoapBinding'
         ];
+    }
+
+    final public function getOrigin(string $id): ?Origin {
+        if (!$host = $this->getHostFromOrigin($id)) {
+            return null;
+        }
+
+        $origin = new Origin();
+
+        $origin->setOrigin($id);
+        $origin->setHost($host);
+
+        return $origin;
     }
 }

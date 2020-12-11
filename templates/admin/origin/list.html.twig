@@ -1,9 +1,43 @@
 {% extends 'admin/layout.html.twig' %}
 
-{% block body %}
-    {% if origins is not empty %}
-    {% for origin, host in origins %}
-        <div>{{ origin }} : {{ host }}</div>
-    {% endfor %}
-    {% endif %}
+{% block actions %}
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+                <a class="btn btn-outline-primary" href="{{ path('admin.origin.add') }}">Add +</a>
+            </div>
+        </div>
+{% endblock %}
+
+{% block content %}
+    <h2>Defined origins</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-borderless">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Host</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if origins is not empty %}
+                {% for origin, host in origins %}
+                    <tr>
+                        <td>{{ origin }}</td>
+                        <td>{{ host }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ path('admin.origin.edit', { 'origin': origin }) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ path('admin.origin.delete', { 'origin': origin }) }}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td>There are no origins defined.</td>
+                </tr>
+            {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

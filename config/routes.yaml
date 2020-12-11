@@ -9,6 +9,24 @@ admin.origin.list:
   path: /admin/origin
   controller: App\Controller\Admin\OriginController::list
   methods: GET|HEAD
+admin.origin.add:
+  path: /admin/origin/add
+  controller: App\Controller\Admin\OriginController::add
+  methods: GET|HEAD|POST
+  requirements:
+    origin: '\w+'
+admin.origin.edit:
+  path: /admin/origin/{origin}/edit
+  controller: App\Controller\Admin\OriginController::edit
+  methods: GET|HEAD|POST
+  requirements:
+    origin: '\w+'
+admin.origin.delete:
+  path: /admin/origin/{origin}/delete
+  controller: App\Controller\Admin\OriginController::delete
+  methods: GET|HEAD|POST
+  requirements:
+    origin: '\w+'
 
 proxy:
   path: /proxy/{origin}/{url?}
