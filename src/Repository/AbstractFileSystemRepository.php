@@ -4,34 +4,44 @@ namespace App\Repository;
 
 use Cocur\Slugify\SlugifyInterface;
 use League\Flysystem\FilesystemInterface;
-use Psr\Http\Message\RequestInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\YamlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
-abstract class AbstractFileSystemRepository implements RepositoryInterface
+abstract class AbstractFileSystemRepository
 {
     protected FilesystemInterface $storage;
     protected SlugifyInterface $nameProvider;
+    protected Serializer $dataProcessor;
 
     public function __construct(FilesystemInterface $defaultStorage, SlugifyInterface $slugify)
     {
         $this->storage = $defaultStorage;
         $this->nameProvider = $slugify;
+        $this->dataProcessor = $this->getDataProcessor();
     }
 
-    final public function getName(string $origin, RequestInterface $request): string
+    private function getDataProcessor(): Serializer
     {
-        $components = [
-            'origin' => $origin,
-            'method' => $request->getMethod(),
-            'url' => $request->getUri(),
-            'body' => $request->getBody(),
-        ];
-
-        dump($this->nameProvider->slugify($request->getUri()->getPath() . '?' . $request->getUri()->getQuery()));
-
-        return '';
+        return new Serializer($this->getNormalizers(), $this->getEncoders());
     }
 
-    abstract public function load(string $name): array;
+    private function getEncoders(): array
+    {
+        return [
+            new XmlEncoder(),
+            new JsonEncoder(),
+            new YamlEncoder(null, null, ['yaml_inline' => 1, 'yaml_indent' => 0, 'yaml_flags' => 1]),
+        ];
+    }
 
-    abstract public function loadMultiple(?array $names = null): array;
+    private function getNormalizers(): array
+    {
+        return [
+          new ObjectNormalizer(),
+        ];
+    }
+
 }

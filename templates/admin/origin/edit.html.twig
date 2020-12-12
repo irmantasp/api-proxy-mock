@@ -6,12 +6,14 @@
 
         {{ form_errors(form) }}
 
-        {{ form_row(form.origin, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.label, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.host, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.mode) }}
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
 
         <a href="{{ path('admin.origin.list') }}" class="btn btn-outline-secondary">Cancel</a>
-        <a href="{{ path('admin.origin.delete', {'origin': form.origin.vars.value}) }}" class="btn btn-danger">Delete</a>
+        <a href="{{ path('admin.origin.delete', {'origin_id': form.name.vars.value}) }}" class="btn btn-danger">Delete</a>
 
         {{ form_end(form) }}
     </div>

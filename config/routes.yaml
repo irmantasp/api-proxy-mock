@@ -16,21 +16,21 @@ admin.origin.add:
   requirements:
     origin: '\w+'
 admin.origin.edit:
-  path: /admin/origin/{origin}/edit
+  path: /admin/origin/{origin_id}/edit
   controller: App\Controller\Admin\OriginController::edit
   methods: GET|HEAD|POST
   requirements:
-    origin: '\w+'
+    origin_id: '\w+'
 admin.origin.delete:
-  path: /admin/origin/{origin}/delete
+  path: /admin/origin/{origin_id}/delete
   controller: App\Controller\Admin\OriginController::delete
   methods: GET|HEAD|POST
   requirements:
-    origin: '\w+'
+    origin_id: '\w+'
 
 proxy:
-  path: /proxy/{origin}/{url?}
+  path: /proxy/{origin_id}/{url?}
   controller: App\Controller\Proxy\ProxyController::proxy
   requirements:
-    origin: '\w+'
+    origin_id: '\w+'
     url: '.+'

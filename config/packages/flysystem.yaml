@@ -5,7 +5,11 @@ flysystem:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/var/storage'
-        origin.storage:
+        mock.storage:
             adapter: 'local'
             options:
-                directory: '%kernel.project_dir%/var/storage/origin'
+                directory: '%kernel.project_dir%/var/storage/mocks'
+        proxy.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/storage/proxy'

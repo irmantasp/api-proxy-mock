@@ -2,7 +2,7 @@
 
 namespace App\Controller\Proxy;
 
-use App\Service\HostConfigServiceInterface;
+use App\Manager\OriginManagerInterface;
 use App\Service\ProxyClientInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use Psr\Http\Message\RequestInterface;
@@ -12,20 +12,24 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AbstractProxyController extends AbstractController
 {
-    protected HostConfigServiceInterface $hostConfig;
+    protected OriginManagerInterface $manager;
     protected ProxyClientInterface $proxy;
 
-    public function __construct(HostConfigServiceInterface $hostConfigService, ProxyClientInterface $proxyService)
+    public function __construct(OriginManagerInterface $originManager, ProxyClientInterface $proxyService)
     {
-        $this->hostConfig = $hostConfigService;
+        $this->manager = $originManager;
         $this->proxy = $proxyService;
     }
 
-    public function proxy(string $origin, ?string $url): Response
+    public function proxy(string $origin_id, ?string $url): Response
     {
 
-        if (!$host = $this->hostConfig->getHostFromOrigin($origin)) {
-            return new Response('No host origin found', 500);
+        if (!$origin = $this->manager->load($origin_id)) {
+            throw new \RuntimeException('No origin found.', 500);
+        }
+
+        if (!$host = $origin->getHost()) {
+            throw new \RuntimeException('No origin host definition found', 500);
         }
 
         $request = $this->getRequest($url);
