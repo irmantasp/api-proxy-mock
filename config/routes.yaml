@@ -28,9 +28,23 @@ admin.origin.delete:
   requirements:
     origin_id: '\w+'
 
+mock:
+  path: /mock/{origin_id}/{url?}
+  controller: App\Controller\Mock\MockController::mock
+  requirements:
+    origin_id: '\w+'
+    url: '.+'
+
 proxy:
   path: /proxy/{origin_id}/{url?}
   controller: App\Controller\Proxy\ProxyController::proxy
+  requirements:
+    origin_id: '\w+'
+    url: '.+'
+
+proxy.mock:
+  path: /proxy-mock/{origin_id}/{url?}
+  controller: App\Controller\Proxy\ProxyMockController::proxyMock
   requirements:
     origin_id: '\w+'
     url: '.+'

@@ -2,11 +2,11 @@
 
 namespace App\Controller\Proxy;
 
+use App\Manager\MockManager;
 use App\Manager\OriginManagerInterface;
 use App\Service\ProxyClientInterface;
 use Cocur\Slugify\SlugifyInterface;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class ProxyController extends AbstractProxyController
 {
@@ -34,8 +34,6 @@ class ProxyController extends AbstractProxyController
         }
 
         $request = $this->getRequest($url);
-
-        $slug = $this->slugify->slugify($url, ['lowercase' => true, 'separator' => '-']);
 
         return $this->proxy->forwardRequest($request, $host);
     }
