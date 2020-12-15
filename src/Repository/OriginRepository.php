@@ -59,7 +59,7 @@ class OriginRepository extends AbstractFileSystemRepository
         if (empty($names)) {
             $files = $this->storage->listContents();
             $files = array_filter($files, static function ($file) {
-                return $file['extension'] === 'yaml';
+                return isset($file['extension']) && $file['extension'] === 'yaml';
             });
             $names = array_map(static function ($file) {
                 return $file['filename'];
