@@ -9,6 +9,7 @@ use League\Flysystem\FileNotFoundException;
 class OriginRepository extends AbstractFileSystemRepository
 {
     protected const REPOSITORY = 'origin';
+    protected const FORMAT = 'yaml';
 
     private function fileName($data): string
     {
@@ -18,7 +19,7 @@ class OriginRepository extends AbstractFileSystemRepository
             $name = (string) $data;
         }
 
-        return sprintf('%s.yaml', $name);
+        return sprintf('%s.%s', $name, static::FORMAT);
     }
 
     private function name(Origin $origin): string
@@ -30,7 +31,7 @@ class OriginRepository extends AbstractFileSystemRepository
     {
         if (!$origin->isNew() && ($fileName = $this->fileName($origin)) && $this->storage->has($this->filePath($fileName))) {
             try {
-                return $this->storage->update($this->filePath($fileName), $this->dataProcessor->serialize($origin, 'yaml'));
+                return $this->storage->update($this->filePath($fileName), $this->dataProcessor->serialize($origin, static::FORMAT));
             } catch (FileNotFoundException $e) {
                 return false;
             }
@@ -38,7 +39,7 @@ class OriginRepository extends AbstractFileSystemRepository
 
         $origin->setName($this->name($origin));
         try {
-            return $this->storage->write($this->filePath($this->fileName($origin)), $this->dataProcessor->serialize($origin, 'yaml'));
+            return $this->storage->write($this->filePath($this->fileName($origin)), $this->dataProcessor->serialize($origin, static::FORMAT));
         } catch (FileExistsException $e) {
             return false;
         }
@@ -48,7 +49,7 @@ class OriginRepository extends AbstractFileSystemRepository
     {
         try {
             $data = $this->storage->read($this->filePath($this->fileName($name)));
-            $origin = $this->dataProcessor->deserialize($data, Origin::class, 'yaml');
+            $origin = $this->dataProcessor->deserialize($data, Origin::class, static::FORMAT);
         } catch (FileNotFoundException $e) {
             return null;
         }
@@ -61,7 +62,7 @@ class OriginRepository extends AbstractFileSystemRepository
         if (empty($names)) {
             $files = $this->storage->listContents(static::REPOSITORY);
             $files = array_filter($files, static function ($file) {
-                return isset($file['extension']) && $file['extension'] === 'yaml';
+                return isset($file['extension']) && $file['extension'] === static::FORMAT;
             });
             $names = array_map(static function ($file) {
                 return $file['filename'];

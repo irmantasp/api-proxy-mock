@@ -1,0 +1,21 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="container">
+        {{ form_start(form) }}
+
+        {{ form_errors(form) }}
+
+        <p>Do you really want to delete <em>{{ origin }}</em> ?</p>
+
+        <hr class="my-4">
+
+        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-danger'}, 'label': 'Delete'}) }}
+
+        <a href="{{ path('admin.mock.list') }}" class="btn btn-outline-secondary">Cancel</a>
+
+        {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

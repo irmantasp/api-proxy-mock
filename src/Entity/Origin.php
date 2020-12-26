@@ -18,10 +18,12 @@ class Origin
 
     /**
      * @param string $name
+     * @return Origin
      */
-    final public function setName(string $name): void
+    final public function setName(string $name): Origin
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -34,10 +36,12 @@ class Origin
 
     /**
      * @param string $label
+     * @return Origin
      */
-    final public function setLabel(string $label): void
+    final public function setLabel(string $label): Origin
     {
         $this->label = $label;
+        return $this;
     }
 
     /**
@@ -50,10 +54,12 @@ class Origin
 
     /**
      * @param string $host
+     * @return Origin
      */
-    final public function setHost(string $host): void
+    final public function setHost(string $host): Origin
     {
         $this->host = $host;
+        return $this;
     }
 
     final public function isNew(): bool

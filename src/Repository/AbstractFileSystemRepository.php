@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 abstract class AbstractFileSystemRepository
 {
     protected const REPOSITORY = '';
+    protected const FORMAT = 'json';
 
     protected FilesystemInterface $storage;
     protected SlugifyInterface $nameProvider;

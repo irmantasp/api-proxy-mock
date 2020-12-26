@@ -2,20 +2,66 @@
 
 namespace App\Manager;
 
-use League\Flysystem\FilesystemInterface;
+use App\Entity\Mock;
+use App\Repository\MockRepository;
 
 class MockManager
 {
-    private FilesystemInterface $storage;
+    private $repository;
+    private $originManager;
 
-    public function __construct(FilesystemInterface $defaultStorage)
+    public function __construct(MockRepository $mockRepository, OriginManagerInterface $originManager)
     {
-        $this->storage = $defaultStorage;
+        $this->repository = $mockRepository;
+        $this->originManager = $originManager;
     }
 
-    final public function getStorage(): FilesystemInterface
+    final public function save(Mock $mock): bool
     {
-        return $this->storage;
+        return $this->repository->save($mock);
+    }
+
+    final public function load(string $mockId, ?string $originId = null): ?Mock
+    {
+        if ($mock = $this->repository->load($mockId, $originId)) {
+            $origin = $this->originManager->load($mock->getOriginId());
+            $mock->setOrigin($origin);
+        }
+
+        return $mock;
+    }
+
+    final public function loadMultiple(?array $mockIds = [], ?string $originId = null): ?array
+    {
+        $mocks = $this->repository->loadMultiple($mockIds, $originId);
+        array_map(function ($mock) use ($originId) {
+            $origin = $this->originManager->load($mock->getOriginId());
+            $mock->setOrigin($origin);
+        }, $mocks);
+
+        return $mocks;
+    }
+
+    final public function loadByUri(string $uri, ?string $originId = null): ?Mock
+    {
+        $mockId = $this->nameFromUri($uri);
+
+        return $this->load($mockId, $originId);
+    }
+
+    final public function delete(Mock $mock): bool
+    {
+        return $this->repository->delete($mock);
+    }
+
+    final public function exists(string $mockId, ?string $originId = null): bool
+    {
+        return $this->repository->exists($mockId, $originId);
+    }
+
+    final public function nameFromUri(string $uri): string
+    {
+        return $this->repository->name($uri);
     }
 
 }

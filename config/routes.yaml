@@ -22,6 +22,31 @@ admin.origin.delete:
   controller: App\Controller\Admin\OriginController::delete
   methods: GET|HEAD|POST
 
+admin.mock.list.complete:
+  path: /admin/mock
+  controller: App\Controller\Admin\MockController::all
+  methods: GET|HEAD
+admin.mock.list:
+  path: /admin/origin/{origin_id}/mock
+  controller: App\Controller\Admin\MockController::list
+  methods: GET|HEAD
+admin.mock.list.add:
+  path: /admin/mock/add
+  controller: App\Controller\Admin\MockController::addWithoutOrigin
+  methods: GET|HEAD
+admin.mock.add:
+  path: /admin/origin/{origin_id}/mock/add
+  controller: App\Controller\Admin\MockController::add
+  methods: GET|HEAD|POST
+admin.mock.edit:
+  path: /admin/origin/{origin_id}/mock/{mock_id}/edit
+  controller: App\Controller\Admin\MockController::edit
+  methods: GET|HEAD|POST
+admin.mock.delete:
+  path: /admin/origin/{origin_id}/mock/{mock_id}/delete
+  controller: App\Controller\Admin\MockController::delete
+  methods: GET|HEAD|POST
+
 mock:
   path: /mock/{origin_id}/{url?}
   controller: App\Controller\Mock\MockController::mock

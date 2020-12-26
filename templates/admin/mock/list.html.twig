@@ -1,0 +1,47 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block actions %}
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+                <a class="btn btn-outline-primary" href="{{ path('admin.mock.list.add') }}">Add +</a>
+            </div>
+        </div>
+{% endblock %}
+
+{% block content %}
+    <div class="table-responsive">
+        <table class="table table-striped table-borderless">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Origin</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th colspan="2">Origin</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if mocks is not empty %}
+                {% for mock in mocks %}
+                    <tr>
+                        <td>{{ mock.origin.label }}</td>
+                        <td>{{ mock.method }}</td>
+                        <td>{{ mock.status }}</td>
+                        <td>
+                            <a target="_blank" href="{{ mock.origin.host ~ mock.uri }}">{{ mock.origin.host ~ mock.uri }}</a>
+                        </td>
+                        <td class="text-right">
+                            <a class="btn btn-primary" href="{{ path('admin.mock.edit', { 'origin_id': mock.origin.name, 'mock_id': mock.id }) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ path('admin.mock.delete', { 'origin_id': mock.origin.name, 'mock_id': mock.id }) }}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td>There are no mocks created or recorded from existing proxy origins.</td>
+                </tr>
+            {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
