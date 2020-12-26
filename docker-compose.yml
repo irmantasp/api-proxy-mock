@@ -16,7 +16,7 @@ services:
       PHP_XDEBUG_IDEKEY: "PHPSTORM"
       PHP_XDEBUG_REMOTE_HOST: host.docker.internal
     volumes:
-    - ./:/var/www/html
+    - ./:/var/www/html:rw
 
   nginx:
     image: wodby/nginx:$NGINX_TAG
@@ -30,7 +30,7 @@ services:
       NGINX_VHOST_PRESET: php
       NGINX_SERVER_ROOT: /var/www/html/public
     volumes:
-    - ./:/var/www/html
+    - ./:/var/www/html:rw
     labels:
     - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
 

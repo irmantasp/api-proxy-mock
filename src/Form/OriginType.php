@@ -32,7 +32,6 @@ class OriginType extends AbstractType
             ->add('name', TextType::class, ['disabled' => !$this->isNew($options)])
             ->add('label', TextType::class)
             ->add('host', UrlType::class)
-            ->add('mode', ChoiceType::class, ['expanded' => true, 'choices' => ['mock' => 'Mock', 'proxy' => 'Proxy']])
             ->add('submit', SubmitType::class);
     }
 }

@@ -12,6 +12,8 @@ use Symfony\Component\Serializer\Serializer;
 
 abstract class AbstractFileSystemRepository
 {
+    protected const REPOSITORY = '';
+
     protected FilesystemInterface $storage;
     protected SlugifyInterface $nameProvider;
     protected Serializer $dataProcessor;
@@ -42,6 +44,13 @@ abstract class AbstractFileSystemRepository
         return [
           new ObjectNormalizer(),
         ];
+    }
+
+    public function filePath(string $name): string {
+        if (static::REPOSITORY === self::REPOSITORY) {
+            return trim($name);
+        }
+        return trim(sprintf('%s/%s', static::REPOSITORY, $name));
     }
 
 }

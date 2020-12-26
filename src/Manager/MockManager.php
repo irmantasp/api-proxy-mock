@@ -8,9 +8,9 @@ class MockManager
 {
     private FilesystemInterface $storage;
 
-    public function __construct(FilesystemInterface $mockStorage)
+    public function __construct(FilesystemInterface $defaultStorage)
     {
-        $this->storage = $mockStorage;
+        $this->storage = $defaultStorage;
     }
 
     final public function getStorage(): FilesystemInterface

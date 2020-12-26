@@ -13,38 +13,29 @@ admin.origin.add:
   path: /admin/origin/add
   controller: App\Controller\Admin\OriginController::add
   methods: GET|HEAD|POST
-  requirements:
-    origin: '\w+'
 admin.origin.edit:
   path: /admin/origin/{origin_id}/edit
   controller: App\Controller\Admin\OriginController::edit
   methods: GET|HEAD|POST
-  requirements:
-    origin_id: '\w+'
 admin.origin.delete:
   path: /admin/origin/{origin_id}/delete
   controller: App\Controller\Admin\OriginController::delete
   methods: GET|HEAD|POST
-  requirements:
-    origin_id: '\w+'
 
 mock:
   path: /mock/{origin_id}/{url?}
   controller: App\Controller\Mock\MockController::mock
   requirements:
-    origin_id: '\w+'
     url: '.+'
 
 proxy:
   path: /proxy/{origin_id}/{url?}
   controller: App\Controller\Proxy\ProxyController::proxy
   requirements:
-    origin_id: '\w+'
     url: '.+'
 
 proxy.mock:
   path: /proxy-mock/{origin_id}/{url?}
   controller: App\Controller\Proxy\ProxyMockController::proxyMock
   requirements:
-    origin_id: '\w+'
     url: '.+'

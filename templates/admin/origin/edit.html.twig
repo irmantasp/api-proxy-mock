@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="row">
+        <div class="container">
         {{ form_start(form) }}
 
         {{ form_errors(form) }}
@@ -9,12 +10,15 @@
         {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.label, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.host, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.mode) }}
+
+        <hr class="my-4">
+
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
 
         <a href="{{ path('admin.origin.list') }}" class="btn btn-outline-secondary">Cancel</a>
         <a href="{{ path('admin.origin.delete', {'origin_id': form.name.vars.value}) }}" class="btn btn-danger">Delete</a>
 
         {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

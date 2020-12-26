@@ -8,6 +8,7 @@ use App\Repository\OriginRepository;
 class OriginManager implements OriginManagerInterface
 {
     private $repository;
+
     public function __construct(OriginRepository $originRepository)
     {
         $this->repository = $originRepository;
@@ -30,7 +31,7 @@ class OriginManager implements OriginManagerInterface
 
     final public function delete(Origin $origin): bool
     {
-       return $this->repository->delete($origin);
+        return $this->repository->delete($origin);
     }
 
     final public function exists(string $originId): bool
