@@ -7,17 +7,18 @@
 
         {{ form_errors(form) }}
 
-        {% do form.name.setRendered() %}
-
+        {{ form_row(form.originId, {'attr': {'class': 'form-control'}})}}
+        {{ form_row(form.uri, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.method, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.status, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.headers, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.body, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.content, {'attr': {'class': 'form-control'}}) }}
 
         <hr class="my-4">
 
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
 
-        <a href="{{ path('admin.mock.list') }}" class="btn btn-outline-secondary">Cancel</a>
+{#        <a href="{{ path('admin.mock.list', {'origin_id': form.originId.vars.value}) }}" class="btn btn-outline-secondary">Cancel</a>#}
 
         {{ form_end(form) }}
         </div>

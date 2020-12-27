@@ -2,20 +2,13 @@
 
 namespace App\Controller\Mock;
 
-use App\Entity\Mock;
 use App\Manager\MockManager;
 use App\Manager\OriginManagerInterface;
-use Cocur\Slugify\SlugifyInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\YamlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class MockController extends AbstractController
 {

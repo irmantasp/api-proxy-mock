@@ -20,6 +20,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "codemirror": "^5.59.0",
         "node-sass": "^5.0.0",
         "sass-loader": "^10.1.0"
     }

@@ -17,6 +17,9 @@ class MockRepository extends AbstractFileSystemRepository
             $name = sprintf('%s/%s', $originId, $this->name($data));
         } else {
             $name = (string) $data;
+            if ($originId) {
+                $name = sprintf('%s/%s', $originId, $this->name($name));
+            }
         }
 
         return sprintf('%s.%s', $name, static::FORMAT);
@@ -62,6 +65,7 @@ class MockRepository extends AbstractFileSystemRepository
             } else {
                 $path = $this->filePath($this->fileName($name, $originId));
             }
+
             $data = $this->storage->read($path);
             $mock = $this->dataProcessor->deserialize($data, Mock::class, static::FORMAT);
         } catch (FileNotFoundException $e) {
