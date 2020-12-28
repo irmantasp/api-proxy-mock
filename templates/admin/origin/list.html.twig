@@ -15,7 +15,8 @@
                 <tr>
                     <th>Name</th>
                     <th>Label</th>
-                    <th colspan="2">Host</th>
+                    <th>Host</th>
+                    <th colspan="2">Recording for mocking</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,8 +28,11 @@
                         <td>
                             <a target="_blank" href="{{ origin.host }}">{{ origin.host }}</a>
                         </td>
+                        <td>{{ origin.record ? 'Yes' : 'No' }}</td>
                         <td class="text-right">
+                            {% if origin.record == true %}
                             <a class="btn" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">View</a>
+                            {% endif %}
                             <a class="btn btn-primary" href="{{ path('admin.origin.edit', { 'origin_id': origin.name }) }}">Edit</a>
                             <a class="btn btn-danger" href="{{ path('admin.origin.delete', { 'origin_id': origin.name }) }}">Delete</a>
                         </td>

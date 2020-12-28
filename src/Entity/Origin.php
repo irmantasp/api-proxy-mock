@@ -7,6 +7,7 @@ class Origin
     private ?string $name = null;
     private ?string $label = null;
     private ?string $host = null;
+    private ?bool $record = false;
 
     /**
      * @return string|null
@@ -59,6 +60,24 @@ class Origin
     final public function setHost(string $host): Origin
     {
         $this->host = $host;
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getRecord(): ?bool
+    {
+        return $this->record;
+    }
+
+    /**
+     * @param bool|null $record
+     * @return Origin
+     */
+    public function setRecord(?bool $record = false): Origin
+    {
+        $this->record = $record;
         return $this;
     }
 

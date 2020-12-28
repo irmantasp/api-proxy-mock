@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Origin;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -32,6 +33,16 @@ class OriginType extends AbstractType
             ->add('name', TextType::class, ['disabled' => !$this->isNew($options)])
             ->add('label', TextType::class)
             ->add('host', UrlType::class)
+            ->add('record', CheckboxType::class, [
+                'label' => 'Should response be recorded and used as mock?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
             ->add('submit', SubmitType::class);
     }
 }
