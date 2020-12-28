@@ -33,17 +33,17 @@ admin.mock.list:
 admin.mock.list.add:
   path: /admin/mock/add
   controller: App\Controller\Admin\MockController::addWithoutOrigin
-  methods: GET|HEAD
+  methods: GET|HEAD|POST
 admin.mock.add:
   path: /admin/origin/{origin_id}/mock/add
   controller: App\Controller\Admin\MockController::add
   methods: GET|HEAD|POST
 admin.mock.edit:
-  path: /admin/origin/{origin_id}/mock/{mock_id}/edit
+  path: /admin/origin/{origin_id}/mock/{method}/{mock_id}/edit
   controller: App\Controller\Admin\MockController::edit
   methods: GET|HEAD|POST
 admin.mock.delete:
-  path: /admin/origin/{origin_id}/mock/{mock_id}/delete
+  path: /admin/origin/{origin_id}/mock/{method}/{mock_id}/delete
   controller: App\Controller\Admin\MockController::delete
   methods: GET|HEAD|POST
 

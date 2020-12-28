@@ -35,18 +35,18 @@ class MockManager
     {
         $mocks = $this->repository->loadMultiple($mockIds, $originId);
         array_map(function ($mock) use ($originId) {
-            $origin = $this->originManager->load($mock->getOriginId());
+            $origin = $this->originManager->load($mock->getOriginId() ?? $originId);
             $mock->setOrigin($origin);
         }, $mocks);
 
         return $mocks;
     }
 
-    final public function loadByUri(string $uri, ?string $originId = null): ?Mock
+    final public function loadByUri(string $uri, ?string $originId = null, ?string $method = null): ?Mock
     {
         $mockId = $this->nameFromUri($uri);
 
-        return $this->load($mockId, $originId);
+        return $this->load($mockId, $originId, $method);
     }
 
     final public function delete(Mock $mock): bool

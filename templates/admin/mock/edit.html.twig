@@ -3,20 +3,50 @@
 {% block content %}
     <div class="row">
         <div class="container">
-        {{ form_start(form) }}
+            {{ form_start(form) }}
 
-        {{ form_errors(form) }}
+            {{ form_errors(form) }}
 
-        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.label, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.host, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.originId, {'attr': {'class': 'form-control'}})}}
+            {{ form_row(form.uri, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.method, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.status, {'attr': {'class': 'form-control'}}) }}
+
+            <div class="form-group">
+                <label for="headers-fields-list">Headers</label>
+                <div
+                        id="headers-fields-list"
+                        data-prototype="{{ form_widget(form.headers.vars.prototype)|e }}"
+                        data-widget-tags="{{ '<div class="headers_entry"></div>'|e }}"
+                        data-widget-counter="{{ form.headers|length }}"
+                >
+                    {% for headerField in form.headers %}
+                        <div class="headers_entry">
+                            {{ form_errors(headerField) }}
+                            {{ form_widget(headerField) }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button
+                        type="button"
+                        class="add-another-collection-widget btn btn-outline-primary"
+                        data-list-selector="#headers-fields-list"
+                >
+                    +
+                </button>
+            </div>
+
+            {% do form.headers.setRendered() %}
+
+            {{ form_row(form.content, {'attr': {'class': 'form-control'}}) }}
 
         <hr class="my-4">
 
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
 
-        <a href="{{ path('admin.mock.list') }}" class="btn btn-outline-secondary">Cancel</a>
-        <a href="{{ path('admin.mock.delete', {'origin_id': form.name.vars.value}) }}" class="btn btn-danger">Delete</a>
+        <a href="{{ path('admin.mock.list', {'origin_id': mock.originId}) }}" class="btn btn-outline-secondary">Cancel</a>
+        <a href="{{ path('admin.mock.delete', {'origin_id': mock.originId, 'mock_id': mock.id, 'method': mock.method}) }}" class="btn btn-danger">Delete</a>
 
         {{ form_end(form) }}
         </div>

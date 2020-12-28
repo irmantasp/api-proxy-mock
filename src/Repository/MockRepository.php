@@ -13,7 +13,7 @@ class MockRepository extends AbstractFileSystemRepository
     private function fileName($data, ?string $originId = null, ?string $method = null): string
     {
         if ($data instanceof Mock) {
-            $originId = $data->getOriginId();
+            $originId = $originId ?? $data->getOriginId();
             $method = $data->getMethod();
             $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data));
         } else {
@@ -43,6 +43,9 @@ class MockRepository extends AbstractFileSystemRepository
         unset($headers['content-length']);
         $mock->setHeaders($headers);
 
+        $mock->setId($this->name($mock));
+        $mock->setOrigin();
+
         if (($fileName = $this->fileName($mock)) && $this->storage->has($this->filePath($fileName))) {
             try {
                 return $this->storage->update($this->filePath($fileName), $this->dataProcessor->serialize($mock, static::FORMAT));
@@ -64,7 +67,6 @@ class MockRepository extends AbstractFileSystemRepository
             if (strpos($name, '/') !== false) {
                 $path = $name;
             } else {
-                $fileName = $this->fileName($name, $originId, $method);
                 $path = $this->filePath($this->fileName($name, $originId, $method));
             }
 
@@ -88,14 +90,22 @@ class MockRepository extends AbstractFileSystemRepository
             $files = array_filter($files, static function ($file) {
                 return isset($file['extension']) && $file['extension'] === static::FORMAT;
             });
-            $names = array_map(static function ($file) use($originId) {
-                return !$originId ? $file['path'] : $file['filename'];
+            $names = array_map(static function ($file) {
+                return $file['path'];
             }, $files);
+
         }
 
-        return array_map(function ($name) use ($originId) {
+        $mocks = array_map(function ($name) use ($originId) {
             return $this->load($name, $originId);
         }, $names);
+
+        return array_filter($mocks, static function ($mock) use ($originId) {
+            if (!$originId) {
+                return true;
+            }
+            return $mock->getOriginId() === $originId;
+        });
     }
 
     final public function delete(Mock $mock): bool

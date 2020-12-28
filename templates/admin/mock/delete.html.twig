@@ -7,13 +7,13 @@
 
         {{ form_errors(form) }}
 
-        <p>Do you really want to delete <em>{{ origin }}</em> ?</p>
+        <p>Do you really want to delete <em>{{ mock }}</em> ?</p>
 
         <hr class="my-4">
 
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-danger'}, 'label': 'Delete'}) }}
 
-        <a href="{{ path('admin.mock.list') }}" class="btn btn-outline-secondary">Cancel</a>
+        <a href="{{ path('admin.mock.list', { 'origin_id': origin }) }}" class="btn btn-outline-secondary">Cancel</a>
 
         {{ form_end(form) }}
         </div>

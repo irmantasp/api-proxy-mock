@@ -11,14 +11,45 @@
         {{ form_row(form.uri, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.method, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.status, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.headers, {'attr': {'class': 'form-control'}}) }}
+
+        <div class="form-group">
+            <label for="headers-fields-list">Headers</label>
+            <div
+                    id="headers-fields-list"
+                    data-prototype="{{ form_widget(form.headers.vars.prototype)|e }}"
+                    data-widget-tags="{{ '<div class="headers_entry"></div>'|e }}"
+                    data-widget-counter="{{ form.headers|length }}"
+            >
+            {% for headerField in form.headers %}
+                <div class="headers_entry">
+                    {{ form_errors(headerField) }}
+                    {{ form_widget(headerField) }}
+                </div>
+            {% endfor %}
+            </div>
+
+            <button
+                    type="button"
+                    class="add-another-collection-widget btn btn-outline-primary"
+                    data-list-selector="#headers-fields-list"
+            >
+                +
+            </button>
+        </div>
+
+        {% do form.headers.setRendered() %}
+
         {{ form_row(form.content, {'attr': {'class': 'form-control'}}) }}
 
         <hr class="my-4">
 
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
 
-{#        <a href="{{ path('admin.mock.list', {'origin_id': form.originId.vars.value}) }}" class="btn btn-outline-secondary">Cancel</a>#}
+        {% if form.originId.vars.value %}
+            <a href="{{ path('admin.mock.list', {'origin_id': form.originId.vars.value}) }}" class="btn btn-outline-secondary">Cancel</a>
+        {% else %}
+            <a href="{{ path('admin.mock.list.complete') }}" class="btn btn-outline-secondary">Cancel</a>
+        {% endif %}
 
         {{ form_end(form) }}
         </div>

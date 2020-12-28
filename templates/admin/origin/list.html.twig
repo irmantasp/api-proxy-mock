@@ -28,6 +28,7 @@
                             <a target="_blank" href="{{ origin.host }}">{{ origin.host }}</a>
                         </td>
                         <td class="text-right">
+                            <a class="btn" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">View</a>
                             <a class="btn btn-primary" href="{{ path('admin.origin.edit', { 'origin_id': origin.name }) }}">Edit</a>
                             <a class="btn btn-danger" href="{{ path('admin.origin.delete', { 'origin_id': origin.name }) }}">Delete</a>
                         </td>

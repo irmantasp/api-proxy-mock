@@ -23,7 +23,15 @@
             {% if mocks is not empty %}
                 {% for mock in mocks %}
                     <tr>
-                        <td>{{ mock.origin.label }}</td>
+                        <td>
+                            {% if origin %}
+                                {{ mock.origin.label }}
+                            {% else %}
+                                <a href="{{ path('admin.mock.list', {'origin_id': mock.origin.name}) }}">
+                                    {{ mock.origin.label }}
+                                </a>
+                            {% endif %}
+                        </td>
                         <td>{{ mock.method }}</td>
                         <td>{{ mock.status }}</td>
                         <td>
@@ -31,14 +39,14 @@
                         </td>
                         <td class="text-right">
                             <a class="btn" target="_blank" href="{{ '/mock/' ~ mock.origin.name ~ mock.uri }}">View</a>
-                            <a class="btn btn-primary" href="{{ path('admin.mock.edit', { 'origin_id': mock.origin.name, 'mock_id': mock.id }) }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ path('admin.mock.delete', { 'origin_id': mock.origin.name, 'mock_id': mock.id }) }}">Delete</a>
+                            <a class="btn btn-primary" href="{{ path('admin.mock.edit', { 'origin_id': mock.origin.name, 'mock_id': mock.id, 'method': mock.method|lower }) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ path('admin.mock.delete', { 'origin_id': mock.origin.name, 'mock_id': mock.id, 'method': mock.method|lower }) }}">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td>There are no mocks created or recorded from existing proxy origins.</td>
+                    <td colspan="4">There are no mocks created or recorded from existing proxy origins.</td>
                 </tr>
             {% endif %}
                 </tr>

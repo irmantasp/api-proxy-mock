@@ -9,7 +9,7 @@ class Mock
     public ?Origin $origin = null;
     private ?string $uri;
     private ?string $method;
-    private ?int $status;
+    private ?string $status;
     private ?array $headers;
     private $content;
 
@@ -61,7 +61,7 @@ class Mock
      * @param Origin|null $origin
      * @return Mock
      */
-    public function setOrigin(?Origin $origin): Mock
+    public function setOrigin(?Origin $origin = null): Mock
     {
         $this->origin = $origin;
         return $this;
@@ -104,18 +104,18 @@ class Mock
     }
 
     /**
-     * @return int
+     * @return string
      */
-    final public function getStatus(): int
+    final public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param string $status
      * @return Mock
      */
-    final public function setStatus(int $status): Mock
+    final public function setStatus(string $status): Mock
     {
         $this->status = $status;
         return $this;

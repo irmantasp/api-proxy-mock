@@ -41,7 +41,7 @@ class MockController extends AbstractController
             throw new \RuntimeException('No mock record found', 404);
         }
 
-        return new Response($mock->getContent(), $mock->getStatus(), $mock->getHeaders());
+        return new Response($mock->getContent(), (int) $mock->getStatus(), $mock->getHeaders());
     }
 
     final public function getRequest(?string $url): RequestInterface
