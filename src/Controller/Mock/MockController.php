@@ -35,10 +35,9 @@ class MockController extends AbstractController
         }
 
         $request = $this->getRequest($url);
-
         $mockId = $this->mockManager->nameFromUri($request->getRequestTarget());
 
-        if (!$mock = $this->mockManager->load($mockId, $origin->getName())) {
+        if (!$mock = $this->mockManager->load($mockId, $origin->getName(), $request->getMethod())) {
             throw new \RuntimeException('No mock record found', 404);
         }
 

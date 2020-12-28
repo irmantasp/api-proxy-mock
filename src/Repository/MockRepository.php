@@ -10,19 +10,20 @@ class MockRepository extends AbstractFileSystemRepository
 {
     protected const REPOSITORY = 'mock';
 
-    private function fileName($data, ?string $originId = null): string
+    private function fileName($data, ?string $originId = null, ?string $method = null): string
     {
         if ($data instanceof Mock) {
             $originId = $data->getOriginId();
-            $name = sprintf('%s/%s', $originId, $this->name($data));
+            $method = $data->getMethod();
+            $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data));
         } else {
             $name = (string) $data;
             if ($originId) {
-                $name = sprintf('%s/%s', $originId, $this->name($name));
+                $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($name));
             }
         }
 
-        return sprintf('%s.%s', $name, static::FORMAT);
+        return trim(sprintf('/%s.%s', trim($name), static::FORMAT));
     }
 
     final public function name($data): string
@@ -57,13 +58,14 @@ class MockRepository extends AbstractFileSystemRepository
         }
     }
 
-    final public function load(string $name, ?string $originId = null): ?Mock
+    final public function load(string $name, ?string $originId = null, ?string $method = null): ?Mock
     {
         try {
             if (strpos($name, '/') !== false) {
                 $path = $name;
             } else {
-                $path = $this->filePath($this->fileName($name, $originId));
+                $fileName = $this->fileName($name, $originId, $method);
+                $path = $this->filePath($this->fileName($name, $originId, $method));
             }
 
             $data = $this->storage->read($path);
