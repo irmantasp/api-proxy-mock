@@ -1,5 +1,7 @@
 {% extends 'admin/layout.html.twig' %}
 
+{% block title %}Origins{% endblock %}
+
 {% block actions %}
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
@@ -9,7 +11,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class="table-responsive">
+    <div id="list-table" class="table-responsive">
+        <div class="row-cols-2 mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control search" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            </div>
+        </div>
         <table class="table table-striped table-borderless">
             <thead class="thead-dark">
                 <tr>
@@ -19,16 +26,16 @@
                     <th colspan="2">Recording for mocking</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="list">
             {% if origins is not empty %}
                 {% for origin in origins %}
                     <tr>
-                        <td>{{ origin.name }}</td>
-                        <td>{{ origin.label }}</td>
-                        <td>
+                        <td class="name">{{ origin.name }}</td>
+                        <td class="label">{{ origin.label }}</td>
+                        <td class="host">
                             <a target="_blank" href="{{ origin.host }}">{{ origin.host }}</a>
                         </td>
-                        <td>{{ origin.record ? 'Yes' : 'No' }}</td>
+                        <td class="record">{{ origin.record ? 'Yes' : 'No' }}</td>
                         <td class="text-right">
                             {% if origin.record == true %}
                             <a class="btn" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">View</a>

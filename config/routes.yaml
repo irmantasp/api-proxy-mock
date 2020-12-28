@@ -2,8 +2,14 @@ homepage:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
     defaults:
-      path: /admin/origin
+      path: /admin
       permanent: true
+
+admin.dashboard:
+  path: /admin
+  controller: App\Controller\Admin\DashboardController::display
+  methods: GET|HEAD
+  defaults:
 
 admin.origin.list:
   path: /admin/origin
@@ -56,11 +62,5 @@ mock:
 proxy:
   path: /proxy/{origin_id}/{url?}
   controller: App\Controller\Proxy\ProxyController::proxy
-  requirements:
-    url: '.+'
-
-proxy.mock:
-  path: /proxy-mock/{origin_id}/{url?}
-  controller: App\Controller\Proxy\ProxyMockController::proxyMock
   requirements:
     url: '.+'
