@@ -42,7 +42,7 @@ class OriginMockType extends AbstractType
             ->add('status', ChoiceType::class, [
                 'choices' => Response::$statusTexts,
                 'choice_label' => static function ($choice, $key, $value) {
-                    return $value;
+                    return sprintf('%s (%s)', $value, $key);
                 }
             ])
             ->add('headers', CollectionType::class, [
