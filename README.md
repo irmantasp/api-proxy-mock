@@ -64,9 +64,17 @@ _This does not delete mock records for said origin._
 
 ## Proxy
 
+One of this application purpose is to proxy requests sent to specific origin.
+
+You can either only proxy, or additionally save response data as static record for future use.
+
 ### Proxy request
 
+To simply proxy requests via application for specific origin, you need to:
+
 ### Record proxy request as mock record
+
+To record proxy requests origin responses you need to:
 
 ## Mocking
 
@@ -118,6 +126,10 @@ You can remove any existing recording.
 </details>
 
 ### Use mock record
+
+To use mock records instead of proxy or direct requests for the origin application, you need to:
+
+
 
 ## Development
 
