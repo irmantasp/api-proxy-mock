@@ -6,6 +6,8 @@ This package provides functionality to proxy HTTP requests, catch request and re
 
 ## Origins
 
+![alt text](/docs/images/origin.png "Origins")
+
 ### Create origin
 
 ## Proxy
@@ -15,6 +17,8 @@ This package provides functionality to proxy HTTP requests, catch request and re
 ### Record proxy request as mock record
 
 ## Mocking
+
+![alt text](/docs/images/mock.png "Mocked records")
 
 ### Create mock record
 
