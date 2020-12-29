@@ -1,4 +1,3 @@
-#webpack_encore:
-    # Cache the entrypoints.json (rebuild Symfony's cache when entrypoints.json changes)
-    # Available in version 1.2
+webpack_encore:
+  output_path: '%kernel.project_dir%/public/assets'
     #cache: true
