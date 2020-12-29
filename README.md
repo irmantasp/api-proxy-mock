@@ -36,17 +36,30 @@ _Operation links are relative for your application domain._
 
 ![alt text](/docs/images/origin_add.png "Add origin")
 
+You can add new origin, by providing custom label and base url(domain) where original requests should be sent to.
+
+ID/Name will be automatically provided for it.
+
+Additionally, you can choose if requests sent for this particular origin should be recorded and used as mocks.
+
 #### Edit
 
 * [Edit origin](/admin/origin/{origin_id}/edit): `/admin/origin/{origin_id}/edit`
 
 ![alt text](/docs/images/origin_edit.png "Edit origin")
 
+You can edit basic information (label, url) for your origin and change recording mode.
+
 #### Delete
 
 * [Delete origin](/admin/origin/{origin_id}/delete): `/admin/origin/{origin_id}/delete`
 
 ![alt text](/docs/images/origin_delete.png "Delete origin")
+
+Delete your origin. 
+
+_This does not delete mock records for said origin._
+
 </details>
 
 ## Proxy
