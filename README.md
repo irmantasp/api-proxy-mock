@@ -10,6 +10,9 @@ This package provides functionality to proxy HTTP requests, catch request and re
 
 ### Operations
 
+<details>
+  <summary> See list of operations</summary>
+
 #### Add
 
 ![alt text](/docs/images/origin_add.png "Add origin")
@@ -21,6 +24,7 @@ This package provides functionality to proxy HTTP requests, catch request and re
 #### Delete
 
 ![alt text](/docs/images/origin_delete.png "Delete origin")
+</details>
 
 ## Proxy
 
@@ -36,6 +40,9 @@ This package provides functionality to proxy HTTP requests, catch request and re
 
 ### Operations
 
+<details>
+  <summary> See list of operations</summary>
+
 #### Add
 
 ![alt text](/docs/images/mock_add.png "Add mock record")
@@ -48,7 +55,12 @@ This package provides functionality to proxy HTTP requests, catch request and re
 
 ![alt text](/docs/images/mock_delete.png "Delete mock record")
 
+</details>
+
 ## Development
+
+<details>
+  <summary> Information for developers</summary>
 
 * Prepare environment config:
 
@@ -97,4 +109,4 @@ This package provides functionality to proxy HTTP requests, catch request and re
     ```bash
     make composer install
     ```
-  
+</details>
