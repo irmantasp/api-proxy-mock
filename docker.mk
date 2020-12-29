@@ -1,6 +1,6 @@
 include .env
 
-.PHONY: up down stop prune ps shell logs mutagen
+.PHONY: up down stop prune ps shell bash logs mutagen
 
 default: up
 
@@ -47,6 +47,15 @@ ps:
 ##		You can optionally pass an argument with a service name to open a shell on the specified container
 shell:
 	docker exec -ti -e COLUMNS=$(shell tput cols) -e LINES=$(shell tput lines) $(shell docker ps --filter name='$(PROJECT_NAME)_$(or $(filter-out $@,$(MAKECMDGOALS)), 'php')' --format "{{ .ID }}") sh
+
+## bash	:	Access `php` container via bash shell.
+##		You can optionally pass an argument with a service name to open a shell on the specified container
+bash:
+	docker exec -ti -e COLUMNS=$(shell tput cols) -e LINES=$(shell tput lines) $(shell docker ps --filter name='$(PROJECT_NAME)_$(or $(filter-out $@,$(MAKECMDGOALS)), 'php')' --format "{{ .ID }}") bash
+
+## composer	:	Access `php` container via bash shell.
+composer:
+	docker exec -ti -e COLUMNS=$(shell tput cols) -e LINES=$(shell tput lines) $(shell docker ps --filter name='$(PROJECT_NAME)_php' --format "{{ .ID }}") composer $(filter-out $@,$(MAKECMDGOALS))
 
 ## logs	:	View containers logs.
 ##		You can optinally pass an argument with the service name to limit logs
