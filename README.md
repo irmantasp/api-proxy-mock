@@ -8,7 +8,19 @@ This package provides functionality to proxy HTTP requests, catch request and re
 
 ![alt text](/docs/images/origin.png "Origins")
 
-### Create origin
+### Operations
+
+#### Add
+
+![alt text](/docs/images/origin_add.png "Add origin")
+
+#### Edit
+
+![alt text](/docs/images/origin_edit.png "Edit origin")
+
+#### Delete
+
+![alt text](/docs/images/origin_delete.png "Delete origin")
 
 ## Proxy
 
@@ -18,9 +30,23 @@ This package provides functionality to proxy HTTP requests, catch request and re
 
 ## Mocking
 
-![alt text](/docs/images/mock.png "Mocked records")
+![alt text](/docs/images/mock_complete.png "Mocked records")
 
-### Create mock record
+![alt text](/docs/images/mock_origin.png "Mocked records for specific proxy")
+
+### Operations
+
+#### Add
+
+![alt text](/docs/images/mock_add.png "Add mock record")
+
+#### Edit
+
+![alt text](/docs/images/mock_edit.png "Edit mock record")
+
+#### Delete
+
+![alt text](/docs/images/mock_delete.png "Delete mock record")
 
 ## Development
 
