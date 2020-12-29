@@ -21,7 +21,7 @@
                     <th>Name</th>
                     <th>Label</th>
                     <th>Host</th>
-                    <th colspan="2">Recording for mocking</th>
+                    <th colspan="3">Recording for mocking</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,17 @@
                             <td>
                                 <a target="_blank" href="{{ origin.host }}">{{ origin.host }}</a>
                             </td>
-                            <td>{{ origin.record ? 'Yes' : 'No' }}</td>
+                            <td>
+                                {% if origin.record %}
+                                    <h4><span class="badge badge-success">Yes</span></h4>
+                                {% else %}
+                                    <h4><span class="badge badge-danger">No</span></h4>
+                                {% endif %}
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy', { 'origin_id': origin.name, 'url': '' }) }}">Proxy</a>
+                                <a class="btn btn-outline-info" target="_blank" href="{{ path('mock', { 'origin_id': origin.name, 'url': '' }) }}">Record mock</a>
+                            </td>
                             <td class="text-right">
                                 {% if origin.record == true %}
                                     <a class="btn" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">View</a>
@@ -45,7 +55,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td>There are no origins defined.</td>
+                        <td colspan="5">There are no origins defined.</td>
                     </tr>
                 {% endif %}
                 </tr>
