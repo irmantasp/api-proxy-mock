@@ -72,9 +72,25 @@ You can either only proxy, or additionally save response data as static record f
 
 To simply proxy requests via application for specific origin, you need to:
 
+* Add origin
+
+* Go to [list of origins](/admin/origin): `/admin/origin`
+
+* Copy [Proxy](/admin/origin/#proxy): `/proxy/{origin_id}/{uri}` link
+
+* Use that link as base url for your requests.
+
 ### Record proxy request as mock record
 
 To record proxy requests origin responses you need to:
+
+* Add origin/edit, check **Should response be recorded and used as mock?** checkbox.
+
+* Go to [list of origins](/admin/origin): `/admin/origin`
+
+* Copy [Proxy](/admin/origin/#proxy): `/proxy/{origin_id}/{uri}` link
+
+* Use that link as base url for your requests.
 
 ## Mocking
 
@@ -129,7 +145,11 @@ You can remove any existing recording.
 
 To use mock records instead of proxy or direct requests for the origin application, you need to:
 
+* Go to [list of mock records](/admin/mock): `/admin/mock`
 
+* Copy [Record mock](/admin/mock/#record-mock): `/mock/{origin_id}/{uri}` link
+
+* Use that link for mocking your requests for particular origin URL.
 
 ## Development
 
