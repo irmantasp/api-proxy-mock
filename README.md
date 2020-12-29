@@ -70,7 +70,15 @@ _This does not delete mock records for said origin._
 
 ## Mocking
 
+Mocks static responses for specific requests sent to specific origin.
+
+It is also possible to record as mock (static response) an request that was proxied though specific origin.
+
+You can see global list or all records at `/admin/mock`:
+
 ![alt text](/docs/images/mock_complete.png "Mocked records")
+
+or you can see list for specific orgin at `/admin/origin/{origin_id}/mock`:
 
 ![alt text](/docs/images/mock_origin.png "Mocked records for specific proxy")
 
@@ -89,17 +97,23 @@ _Operation links are relative for your application domain._
 
 ![alt text](/docs/images/mock_add.png "Add mock record")
 
+To manually add new record, you need to choose origin, request uri (with query parameters if such exist), request method, response status, headers and response content.
+
 #### Edit
 
 * [Edit mock record](/admin/origin/{origin_id}/mock/{method}/{mock_id}/edit): `/admin/origin/{origin_id}/mock/{method}/{mock_id}/edit`
 
 ![alt text](/docs/images/mock_edit.png "Edit mock record")
 
+You can edit any existing record and its metadata.
+
 #### Delete
 
 * [Delete mock record](/admin/origin/{origin_id}/mock/{method}/{mock_id}/delete): `/admin/origin/{origin_id}/mock/{method}/{mock_id}/delete`
 
 ![alt text](/docs/images/mock_delete.png "Delete mock record")
+
+You can remove any existing recording.
 
 </details>
 
