@@ -28,15 +28,23 @@ You can copy these links and use in Postman or any other different application d
 <details>
   <summary> See list of operations</summary>
 
+_Operation links are relative for your application domain._
+
 #### Add
+
+* [Add origin](/admin/origin/add)
 
 ![alt text](/docs/images/origin_add.png "Add origin")
 
 #### Edit
 
+* [Add origin](/admin/origin/{origin_id}/edit)
+
 ![alt text](/docs/images/origin_edit.png "Edit origin")
 
 #### Delete
+
+* [Add origin](/admin/origin/{origin_id}/delete)
 
 ![alt text](/docs/images/origin_delete.png "Delete origin")
 </details>
@@ -58,15 +66,25 @@ You can copy these links and use in Postman or any other different application d
 <details>
   <summary> See list of operations</summary>
 
+_Operation links are relative for your application domain._
+
 #### Add
+
+* [Add mock record](/admin/mock/add)
+
+* [Add mock record for specific origin](/admin/origin/{origin_id}/mock/add)
 
 ![alt text](/docs/images/mock_add.png "Add mock record")
 
 #### Edit
 
+* [Edit mock record](/admin/origin/{origin_id}/mock/{method}/{mock_id}/edit)
+
 ![alt text](/docs/images/mock_edit.png "Edit mock record")
 
 #### Delete
+
+* [Delete mock record](/admin/origin/{origin_id}/mock/{method}/{mock_id}/delete)
 
 ![alt text](/docs/images/mock_delete.png "Delete mock record")
 
