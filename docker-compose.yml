@@ -8,13 +8,6 @@ services:
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       PHP_FPM_USER: wodby
       PHP_FPM_GROUP: wodby
-      # Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
-      PHP_XDEBUG: 1
-      PHP_XDEBUG_DEFAULT_ENABLE: 1
-      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
-      PHP_IDE_CONFIG: "serverName=${PROJECT_BASE_URL}"
-      PHP_XDEBUG_IDEKEY: "PHPSTORM"
-      PHP_XDEBUG_REMOTE_HOST: host.docker.internal
     volumes:
     - ./:/var/www/html
 
@@ -40,6 +33,5 @@ services:
     command: --api.insecure=true --providers.docker
     ports:
     - '80:80'
-    - '8080:8080' # Dashboard
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
