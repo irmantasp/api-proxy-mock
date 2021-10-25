@@ -26,7 +26,7 @@ class MockRepository extends AbstractFileSystemRepository
         return trim(sprintf('/%s.%s', trim($name), static::FORMAT));
     }
 
-    final public function name($data, ?string $content): string
+    final public function name($data, ?string $content = null): string
     {
         if ($data instanceof Mock) {
             $uri = $data->getUri();
