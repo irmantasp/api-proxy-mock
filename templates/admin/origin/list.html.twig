@@ -43,8 +43,9 @@
                             {% endif %}
                         </td>
                         <td class="text-right">
-                            <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy', { 'origin_id': origin.name, 'url': '' }) }}">Proxy</a>
-                            <a class="btn btn-outline-info" target="_blank" href="{{ path('mock', { 'origin_id': origin.name, 'url': '' }) }}">Record mock</a>
+                            <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy', { 'origin_id': origin.name, 'url': '' }) }}" title="Record a origin response, but return original.">Proxy</a>
+                            <a class="btn btn-outline-info" target="_blank" href="{{ path('mock', { 'origin_id': origin.name, 'url': '' }) }}" title="Return a found response, error if none is found.">Mock</a>
+                            <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy.mock', { 'origin_id': origin.name, 'url': '' }) }}" title="Return a found recorded response if found, else record and return original.">Proxy mock</a>
                         </td>
                         <td class="text-right">
                             {% if origin.record == true %}
