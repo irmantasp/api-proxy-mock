@@ -64,3 +64,9 @@ proxy:
   controller: App\Controller\Proxy\ProxyController::proxy
   requirements:
     url: '.+'
+
+proxy.mock:
+  path: /proxy-mock/{origin_id}/{url?}
+  controller: App\Controller\Proxy\ProxyController::proxy
+  requirements:
+    url: '.+'

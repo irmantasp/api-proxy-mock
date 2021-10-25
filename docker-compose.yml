@@ -2,17 +2,16 @@ version: "3"
 
 services:
   php:
-    image: wodby/php:$PHP_TAG
+    image: wodby/php:${PHP_TAG}
     container_name: "${PROJECT_NAME}_php"
     environment:
-      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       PHP_FPM_USER: wodby
       PHP_FPM_GROUP: wodby
     volumes:
     - ./:/var/www/html
 
   nginx:
-    image: wodby/nginx:$NGINX_TAG
+    image: wodby/nginx:${NGINX_TAG}
     container_name: "${PROJECT_NAME}_nginx"
     depends_on:
     - php

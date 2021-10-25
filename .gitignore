@@ -7,7 +7,6 @@
 /var/log/*
 !var/log/.gitkeep
 
-
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
