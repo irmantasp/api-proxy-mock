@@ -10,7 +10,7 @@ class MockRepository extends AbstractFileSystemRepository
 {
     protected const REPOSITORY = 'mock';
 
-    private function fileName($data, ?string $originId = null, ?string $method = null): string
+    private function fileName($data, ?string $originId = null, ?string $method = null, ?string $content = null): string
     {
         if ($data instanceof Mock) {
             $originId = $originId ?? $data->getOriginId();
@@ -26,7 +26,7 @@ class MockRepository extends AbstractFileSystemRepository
         return trim(sprintf('/%s.%s', trim($name), static::FORMAT));
     }
 
-    final public function name($data): string
+    final public function name($data, ?string $content): string
     {
         if ($data instanceof Mock) {
             $uri = $data->getUri();
@@ -34,7 +34,20 @@ class MockRepository extends AbstractFileSystemRepository
             $uri = (string) $data;
         }
 
+        if (!empty($content)) {
+            $separator = strpos('?', $uri) ? '&' : '?';
+            $uri .= sprintf('%srequestContent=%s', $separator, $this->contentId($content));
+        }
+
         return $this->nameProvider->slugify($uri, ['lowercase' => true, 'separator' => '-']);
+    }
+
+    final public function contentId(?string $content): string {
+        if (empty($content)) {
+            return '';
+        }
+
+        return md5($content);
     }
 
     final public function save(Mock $mock): bool
@@ -61,13 +74,13 @@ class MockRepository extends AbstractFileSystemRepository
         }
     }
 
-    final public function load(string $name, ?string $originId = null, ?string $method = null): ?Mock
+    final public function load(string $name, ?string $originId = null, ?string $method = null, ?string $content = null): ?Mock
     {
         try {
             if (strpos($name, '/') !== false) {
                 $path = $name;
             } else {
-                $path = $this->filePath($this->fileName($name, $originId, $method));
+                $path = $this->filePath($this->fileName($name, $originId, $method, $content));
             }
 
             $data = $this->storage->read($path);

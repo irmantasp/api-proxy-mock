@@ -21,9 +21,9 @@ class MockManager
         return $this->repository->save($mock);
     }
 
-    final public function load(string $mockId, ?string $originId = null, ?string $method = null): ?Mock
+    final public function load(string $mockId, ?string $originId = null, ?string $method = null, ?string $content = null): ?Mock
     {
-        if ($mock = $this->repository->load($mockId, $originId, $method)) {
+        if ($mock = $this->repository->load($mockId, $originId, $method, $content)) {
             $origin = $this->originManager->load($mock->getOriginId());
             $mock->setOrigin($origin);
         }
