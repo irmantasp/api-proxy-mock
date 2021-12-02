@@ -100,7 +100,8 @@ class MockRepository extends AbstractFileSystemRepository
     final public function loadMultiple(?array $names = [], ?string $originId = null): array
     {
         if (empty($names)) {
-            $files = $this->storage->listContents(static::REPOSITORY, true);
+            $directory_listing = $this->storage->listContents(static::REPOSITORY, true);
+            $files = $directory_listing->toArray();
             $files = array_filter($files, static function ($file) {
                 return isset($file['extension']) && $file['extension'] === static::FORMAT;
             });

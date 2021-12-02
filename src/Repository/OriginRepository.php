@@ -61,7 +61,8 @@ class OriginRepository extends AbstractFileSystemRepository
     final public function loadMultiple(?array $names = []): array
     {
         if (empty($names)) {
-            $files = $this->storage->listContents(static::REPOSITORY);
+            $directory_listing = $this->storage->listContents(static::REPOSITORY);
+            $files = $directory_listing->toArray();
             $files = array_filter($files, static function ($file) {
                 return isset($file['extension']) && $file['extension'] === static::FORMAT;
             });
