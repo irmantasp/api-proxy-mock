@@ -9,6 +9,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     .setOutputPath( Encore.isProduction() ? 'public/assets/' : 'public/build/' )
     .setPublicPath(Encore.isProduction() ? '/assets' : '/build')
+    .enableSingleRuntimeChunk()
     .autoProvidejQuery()
     .addEntry('app', './assets/js/app.js')
     .cleanupOutputBeforeBuild()

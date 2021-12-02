@@ -20,6 +20,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@popperjs/core": "^2.11.0",
         "ansi-regex": "^5.0.1",
         "codemirror": "^5.59.0",
         "glob-parent": "^5.1.2",
