@@ -15,11 +15,11 @@ class MockRepository extends AbstractFileSystemRepository
         if ($data instanceof Mock) {
             $originId = $originId ?? $data->getOriginId();
             $method = $data->getMethod();
-            $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data));
+            $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data, $content));
         } else {
             $name = (string) $data;
             if ($originId) {
-                $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($name));
+                $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($name, $content));
             }
         }
 

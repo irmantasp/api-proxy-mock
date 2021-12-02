@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use Cocur\Slugify\SlugifyInterface;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\YamlEncoder;
@@ -15,11 +15,11 @@ abstract class AbstractFileSystemRepository
     protected const REPOSITORY = '';
     protected const FORMAT = 'json';
 
-    protected FilesystemInterface $storage;
+    protected FilesystemOperator $storage;
     protected SlugifyInterface $nameProvider;
     protected Serializer $dataProcessor;
 
-    public function __construct(FilesystemInterface $defaultStorage, SlugifyInterface $slugify)
+    public function __construct(FilesystemOperator $defaultStorage, SlugifyInterface $slugify)
     {
         $this->storage = $defaultStorage;
         $this->nameProvider = $slugify;
