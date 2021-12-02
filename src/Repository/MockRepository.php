@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Mock;
 use League\Flysystem\FilesystemException;
+use League\Flysystem\StorageAttributes;
 
 class MockRepository extends AbstractFileSystemRepository
 {
@@ -83,6 +84,7 @@ class MockRepository extends AbstractFileSystemRepository
             } else {
                 $path = $this->filePath($this->fileName($name, $originId, $method, $content));
             }
+            dump($path);
 
             $data = $this->storage->read($path);
             $mock = $this->dataProcessor->deserialize($data, Mock::class, static::FORMAT);
@@ -102,11 +104,13 @@ class MockRepository extends AbstractFileSystemRepository
         if (empty($names)) {
             $directory_listing = $this->storage->listContents(static::REPOSITORY, true);
             $files = $directory_listing->toArray();
-            $files = array_filter($files, static function ($file) {
-                return isset($file['extension']) && $file['extension'] === static::FORMAT;
+            $files = array_filter($files, static function (StorageAttributes $file) {
+                $file_info = pathinfo($file->path());
+                return isset($file_info['extension']) && $file_info['extension'] === static::FORMAT;
             });
-            $names = array_map(static function ($file) {
-                return $file['path'];
+            $names = array_map(static function (StorageAttributes $file) {
+                $file_info = pathinfo($file->path());
+                return $file_info['filename'];
             }, $files);
 
         }

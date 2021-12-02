@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Origin;
 use League\Flysystem\FilesystemException;
+use League\Flysystem\StorageAttributes;
 
 class OriginRepository extends AbstractFileSystemRepository
 {
@@ -63,11 +64,13 @@ class OriginRepository extends AbstractFileSystemRepository
         if (empty($names)) {
             $directory_listing = $this->storage->listContents(static::REPOSITORY);
             $files = $directory_listing->toArray();
-            $files = array_filter($files, static function ($file) {
-                return isset($file['extension']) && $file['extension'] === static::FORMAT;
+            $files = array_filter($files, static function (StorageAttributes $file) {
+                $file_info = pathinfo($file->path());
+                return isset($file_info['extension']) && $file_info['extension'] === static::FORMAT;
             });
-            $names = array_map(static function ($file) {
-                return $file['filename'];
+            $names = array_map(static function (StorageAttributes $file) {
+                $file_info = pathinfo($file->path());
+                return $file_info['filename'];
             }, $files);
         }
 
