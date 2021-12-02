@@ -3,8 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Origin;
-use League\Flysystem\FileExistsException;
-use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemException;
 
 class OriginRepository extends AbstractFileSystemRepository
 {
@@ -29,18 +28,20 @@ class OriginRepository extends AbstractFileSystemRepository
 
     final public function save(Origin $origin): bool
     {
-        if (!$origin->isNew() && ($fileName = $this->fileName($origin)) && $this->storage->has($this->filePath($fileName))) {
+        if (!$origin->isNew() && ($fileName = $this->fileName($origin)) && $this->storage->fileExists($this->filePath($fileName))) {
             try {
-                return $this->storage->update($this->filePath($fileName), $this->dataProcessor->serialize($origin, static::FORMAT));
-            } catch (FileNotFoundException $e) {
+                $this->storage->write($this->filePath($fileName), $this->dataProcessor->serialize($origin, static::FORMAT));
+                return true;
+            } catch (FilesystemException $e) {
                 return false;
             }
         }
 
         $origin->setName($this->name($origin));
         try {
-            return $this->storage->write($this->filePath($this->fileName($origin)), $this->dataProcessor->serialize($origin, static::FORMAT));
-        } catch (FileExistsException $e) {
+            $this->storage->write($this->filePath($this->fileName($origin)), $this->dataProcessor->serialize($origin, static::FORMAT));
+            return true;
+        } catch (FilesystemException $e) {
             return false;
         }
     }
@@ -50,7 +51,7 @@ class OriginRepository extends AbstractFileSystemRepository
         try {
             $data = $this->storage->read($this->filePath($this->fileName($name)));
             $origin = $this->dataProcessor->deserialize($data, Origin::class, static::FORMAT);
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             return null;
         }
 
@@ -77,14 +78,15 @@ class OriginRepository extends AbstractFileSystemRepository
     final public function delete(Origin $origin): bool
     {
         try {
-            return $this->storage->delete($this->filePath($this->fileName($origin)));
-        } catch (FileNotFoundException $e) {
+            $this->storage->delete($this->filePath($this->fileName($origin)));
+            return true;
+        } catch (FilesystemException $e) {
             return false;
         }
     }
 
     final public function exists(string $name): bool
     {
-        return $this->storage->has($this->filePath($this->fileName($name)));
+        return $this->storage->fileExists($this->filePath($this->fileName($name)));
     }
 }
