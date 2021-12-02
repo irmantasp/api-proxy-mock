@@ -3,8 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Mock;
-use League\Flysystem\FileExistsException;
-use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemException;
 
 class MockRepository extends AbstractFileSystemRepository
 {
@@ -15,11 +14,11 @@ class MockRepository extends AbstractFileSystemRepository
         if ($data instanceof Mock) {
             $originId = $originId ?? $data->getOriginId();
             $method = $data->getMethod();
-            $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data));
+            $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data, $content));
         } else {
             $name = (string) $data;
             if ($originId) {
-                $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($name));
+                $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($name, $content));
             }
         }
 
@@ -59,17 +58,19 @@ class MockRepository extends AbstractFileSystemRepository
         $mock->setId($this->name($mock));
         $mock->setOrigin();
 
-        if (($fileName = $this->fileName($mock)) && $this->storage->has($this->filePath($fileName))) {
+        if (($fileName = $this->fileName($mock)) && $this->storage->fileExists($this->filePath($fileName))) {
             try {
-                return $this->storage->update($this->filePath($fileName), $this->dataProcessor->serialize($mock, static::FORMAT));
-            } catch (FileNotFoundException $e) {
+                $this->storage->write($this->filePath($fileName), $this->dataProcessor->serialize($mock, static::FORMAT));
+                return true;
+            } catch (FilesystemException $e) {
                 return false;
             }
         }
 
         try {
-            return $this->storage->write($this->filePath($this->fileName($mock)), $this->dataProcessor->serialize($mock, static::FORMAT));
-        } catch (FileExistsException $e) {
+            $this->storage->write($this->filePath($this->fileName($mock)), $this->dataProcessor->serialize($mock, static::FORMAT));
+            return true;
+        } catch (FilesystemException $e) {
             return false;
         }
     }
@@ -85,7 +86,7 @@ class MockRepository extends AbstractFileSystemRepository
 
             $data = $this->storage->read($path);
             $mock = $this->dataProcessor->deserialize($data, Mock::class, static::FORMAT);
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             return null;
         }
 
@@ -124,15 +125,16 @@ class MockRepository extends AbstractFileSystemRepository
     final public function delete(Mock $mock): bool
     {
         try {
-            return $this->storage->delete($this->filePath($this->fileName($mock)));
-        } catch (FileNotFoundException $e) {
+            $this->storage->delete($this->filePath($this->fileName($mock)));
+            return true;
+        } catch (FilesystemException $e) {
             return false;
         }
     }
 
     final public function exists(string $name, ?string $originId = null): bool
     {
-        return $this->storage->has($this->filePath($this->fileName($name)));
+        return $this->storage->fileExists($this->filePath($this->fileName($name)));
     }
 
 }
