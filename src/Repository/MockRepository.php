@@ -84,7 +84,6 @@ class MockRepository extends AbstractFileSystemRepository
             } else {
                 $path = $this->filePath($this->fileName($name, $originId, $method, $content));
             }
-            dump($path);
 
             $data = $this->storage->read($path);
             $mock = $this->dataProcessor->deserialize($data, Mock::class, static::FORMAT);
