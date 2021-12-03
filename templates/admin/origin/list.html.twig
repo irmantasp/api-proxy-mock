@@ -37,17 +37,17 @@
                         </td>
                         <td class="record">
                             {% if origin.record %}
-                                <h4><span class="badge badge-success">Yes</span></h4>
+                                <h4><span class="badge bg-success">Yes</span></h4>
                             {% else %}
-                                <h4><span class="badge badge-danger">No</span></h4>
+                                <h4><span class="badge bg-danger">No</span></h4>
                             {% endif %}
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy', { 'origin_id': origin.name, 'url': '' }) }}" title="Record a origin response, but return original.">Proxy</a>
                             <a class="btn btn-outline-info" target="_blank" href="{{ path('mock', { 'origin_id': origin.name, 'url': '' }) }}" title="Return a found response, error if none is found.">Mock</a>
                             <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy.mock', { 'origin_id': origin.name, 'url': '' }) }}" title="Return a found recorded response if found, else record and return original.">Proxy mock</a>
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             {% if origin.record == true %}
                             <a class="btn btn-outline-primary" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">Records</a>
                             {% endif %}

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Mock;
 use League\Flysystem\FilesystemException;
+use League\Flysystem\StorageAttributes;
 
 class MockRepository extends AbstractFileSystemRepository
 {
@@ -100,12 +101,15 @@ class MockRepository extends AbstractFileSystemRepository
     final public function loadMultiple(?array $names = [], ?string $originId = null): array
     {
         if (empty($names)) {
-            $files = $this->storage->listContents(static::REPOSITORY, true);
-            $files = array_filter($files, static function ($file) {
-                return isset($file['extension']) && $file['extension'] === static::FORMAT;
+            $directory_listing = $this->storage->listContents(static::REPOSITORY, true);
+            $files = $directory_listing->toArray();
+            $files = array_filter($files, static function (StorageAttributes $file) {
+                $file_info = pathinfo($file->path());
+                return isset($file_info['extension']) && $file_info['extension'] === static::FORMAT;
             });
-            $names = array_map(static function ($file) {
-                return $file['path'];
+            $names = array_map(static function (StorageAttributes $file) {
+                $file_info = pathinfo($file->path());
+                return $file_info['filename'];
             }, $files);
 
         }
