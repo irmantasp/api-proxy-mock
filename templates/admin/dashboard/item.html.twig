@@ -40,12 +40,12 @@
                                     <h4><span class="badge bg-danger">No</span></h4>
                                 {% endif %}
                             </td>
-                            <td class="text-right">
+                            <td class="text-end">
                                 <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy', { 'origin_id': origin.name, 'url': '' }) }}" title="Record a origin response, but return original.">Proxy</a>
                                 <a class="btn btn-outline-info" target="_blank" href="{{ path('mock', { 'origin_id': origin.name, 'url': '' }) }}" title="Return a found response, error if none is found.">Mock</a>
                                 <a class="btn btn-outline-info" target="_blank" href="{{ path('proxy.mock', { 'origin_id': origin.name, 'url': '' }) }}" title="Return a found recorded response if found, else record and return original.">Proxy mock</a>
                             </td>
-                            <td class="text-right">
+                            <td class="text-end">
                                 {% if origin.record == true %}
                                     <a class="btn" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">View</a>
                                 {% endif %}
@@ -63,7 +63,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="text-right">
+        <div class="text-end">
             <a class="btn btn-outline-primary" href="{{ path('admin.origin.list') }}">See all origins</a>
         </div>
     </div>
@@ -91,7 +91,7 @@
                             <td>
                                 <a target="_blank" href="{{ mock.origin.host ~ mock.uri }}">{{ mock.origin.host ~ mock.uri }}</a>
                             </td>
-                            <td class="text-right">
+                            <td class="text-end">
                                 <a class="btn" target="_blank" href="{{ '/mock/' ~ mock.origin.name ~ mock.uri }}">View</a>
                                 <a class="btn btn-primary" href="{{ path('admin.mock.edit', { 'origin_id': mock.origin.name, 'mock_id': mock.id, 'method': mock.method|lower }) }}">Edit</a>
                                 <a class="btn btn-danger" href="{{ path('admin.mock.delete', { 'origin_id': mock.origin.name, 'mock_id': mock.id, 'method': mock.method|lower }) }}">Delete</a>
@@ -107,7 +107,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="text-right">
+        <div class="text-end">
             <a class="btn btn-outline-primary" href="{{ path('admin.mock.list.complete') }}">See all mock records</a>
         </div>
     </div>
