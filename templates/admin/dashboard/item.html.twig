@@ -47,7 +47,7 @@
                             </td>
                             <td class="text-end">
                                 {% if origin.record == true %}
-                                    <a class="btn" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">View</a>
+                                    <a class="btn btn-outline-primary" href="{{ path('admin.mock.list', {'origin_id': origin.name}) }}">Records</a>
                                 {% endif %}
                                 <a class="btn btn-primary" href="{{ path('admin.origin.edit', { 'origin_id': origin.name }) }}">Edit</a>
                                 <a class="btn btn-danger" href="{{ path('admin.origin.delete', { 'origin_id': origin.name }) }}">Delete</a>
