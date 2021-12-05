@@ -30,7 +30,7 @@ class MockController extends AbstractController
             throw new \RuntimeException('No origin found.', 500);
         }
 
-        if (!$host = $origin->getHost()) {
+        if (!$origin->getHost()) {
             throw new \RuntimeException('No origin host definition found', 500);
         }
 

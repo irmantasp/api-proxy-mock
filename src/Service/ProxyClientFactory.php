@@ -23,7 +23,8 @@ class ProxyClientFactory implements ProxyClientFactoryInterface
     private function getClient(): Client
     {
         $clientConfig = [
-            'verify' => false
+            'verify' => false,
+            'allow_redirects' => true,
         ];
 
         return new Client($clientConfig);

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Mock;
+use Laminas\Diactoros\Uri;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
 
@@ -34,10 +35,15 @@ class MockRepository extends AbstractFileSystemRepository
             $uri = (string) $data;
         }
 
-        $separator = strpos('?', $uri) ? '&' : '?';
-        $uri .= sprintf('%srequestContent=%s', $separator, $this->contentId($content));
+        $id = $this->contentId($content);
+        if (strpos($uri, $id) !== false) {
+            return $uri;
+        }
 
-        return $this->nameProvider->slugify($uri, ['lowercase' => true, 'separator' => '-']);
+        $nameParts[] = $this->nameProvider->slugify($uri, ['lowercase' => true, 'separator' => '-']);
+        $nameParts[] = $id;
+
+        return implode('--', $nameParts);
     }
 
     final public function contentId(?string $content): string {
@@ -103,11 +109,10 @@ class MockRepository extends AbstractFileSystemRepository
             $files = $directory_listing->toArray();
             $files = array_filter($files, static function (StorageAttributes $file) {
                 $file_info = pathinfo($file->path());
-                return isset($file_info['extension']) && $file_info['extension'] === static::FORMAT;
+                return $file->isFile() && isset($file_info['extension']) && $file_info['extension'] === static::FORMAT;
             });
             $names = array_map(static function (StorageAttributes $file) {
-                $file_info = pathinfo($file->path());
-                return $file_info['filename'];
+                return $file->path();
             }, $files);
 
         }
