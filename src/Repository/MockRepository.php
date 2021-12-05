@@ -14,7 +14,7 @@ class MockRepository extends AbstractFileSystemRepository
     {
         if ($data instanceof Mock) {
             $originId = $originId ?? $data->getOriginId();
-            $method = $data->getMethod();
+            $method = $method ?? $data->getMethod();
             $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data, $content));
         } else {
             $name = (string) $data;
@@ -34,17 +34,15 @@ class MockRepository extends AbstractFileSystemRepository
             $uri = (string) $data;
         }
 
-        if (!empty($content)) {
-            $separator = strpos('?', $uri) ? '&' : '?';
-            $uri .= sprintf('%srequestContent=%s', $separator, $this->contentId($content));
-        }
+        $separator = strpos('?', $uri) ? '&' : '?';
+        $uri .= sprintf('%srequestContent=%s', $separator, $this->contentId($content));
 
         return $this->nameProvider->slugify($uri, ['lowercase' => true, 'separator' => '-']);
     }
 
     final public function contentId(?string $content): string {
-        if (empty($content)) {
-            return '';
+        if (is_null($content)) {
+            $content = '';
         }
 
         return md5($content);
