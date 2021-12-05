@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Mock;
+use Laminas\Diactoros\Uri;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
+use Psr\Http\Message\RequestInterface;
 
 class MockRepository extends AbstractFileSystemRepository
 {
@@ -14,8 +16,9 @@ class MockRepository extends AbstractFileSystemRepository
     {
         if ($data instanceof Mock) {
             $originId = $originId ?? $data->getOriginId();
-            $method = $data->getMethod();
-            $name = sprintf('%s/%s/%s', $originId, strtolower($method), $this->name($data, $content));
+            $method = $method ?? $data->getMethod();
+            $fileName = is_null($data->getId()) ? $this->name($data, $content) : $data->getId();
+            $name = sprintf('%s/%s/%s', $originId, strtolower($method), $fileName);
         } else {
             $name = (string) $data;
             if ($originId) {
@@ -34,29 +37,33 @@ class MockRepository extends AbstractFileSystemRepository
             $uri = (string) $data;
         }
 
-        if (!empty($content)) {
-            $separator = strpos('?', $uri) ? '&' : '?';
-            $uri .= sprintf('%srequestContent=%s', $separator, $this->contentId($content));
+        $id = $this->contentId($content);
+        if (strpos($uri, $id) !== false) {
+            return $uri;
         }
 
-        return $this->nameProvider->slugify($uri, ['lowercase' => true, 'separator' => '-']);
+        $nameParts[] = $this->nameProvider->slugify($uri, ['lowercase' => true, 'separator' => '-']);
+        $nameParts[] = $id;
+
+        return implode('--', $nameParts);
     }
 
     final public function contentId(?string $content): string {
-        if (empty($content)) {
-            return '';
+        if (is_null($content)) {
+            $content = '';
         }
 
         return md5($content);
     }
 
-    final public function save(Mock $mock): bool
+    final public function save(Mock $mock, ?RequestInterface $request = null): bool
     {
         $headers = $mock->getHeaders();
         unset($headers['content-length']);
         $mock->setHeaders($headers);
 
-        $mock->setId($this->name($mock));
+        $name = is_null($request) ? $this->name($mock) : $this->name($mock, $request->getBody()->getContents());
+        $mock->setId($name);
         $mock->setOrigin();
 
         if (($fileName = $this->fileName($mock)) && $this->storage->fileExists($this->filePath($fileName))) {
@@ -105,11 +112,10 @@ class MockRepository extends AbstractFileSystemRepository
             $files = $directory_listing->toArray();
             $files = array_filter($files, static function (StorageAttributes $file) {
                 $file_info = pathinfo($file->path());
-                return isset($file_info['extension']) && $file_info['extension'] === static::FORMAT;
+                return $file->isFile() && isset($file_info['extension']) && $file_info['extension'] === static::FORMAT;
             });
             $names = array_map(static function (StorageAttributes $file) {
-                $file_info = pathinfo($file->path());
-                return $file_info['filename'];
+                return $file->path();
             }, $files);
 
         }

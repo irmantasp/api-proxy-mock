@@ -30,14 +30,15 @@ class MockController extends AbstractController
             throw new \RuntimeException('No origin found.', 500);
         }
 
-        if (!$host = $origin->getHost()) {
+        if (!$origin->getHost()) {
             throw new \RuntimeException('No origin host definition found', 500);
         }
 
         $request = $this->getRequest($url);
-        $mockId = $this->mockManager->nameFromUri($request->getRequestTarget());
+        $requestContent = $request->getBody()->getContents();
+        $mockId = $this->mockManager->nameFromUri($request->getRequestTarget(), $requestContent);
 
-        if (!$mock = $this->mockManager->load($mockId, $origin->getName(), $request->getMethod())) {
+        if (!$mock = $this->mockManager->load($mockId, $origin->getName(), $request->getMethod(), $requestContent)) {
             throw new \RuntimeException('No mock record found', 404);
         }
 

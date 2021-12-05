@@ -28,9 +28,10 @@ class ProxyController extends AbstractProxyController
         $origin = $this->manager->load($origin_id);
         if ($origin && $origin->getRecord() === true) {
             $request = $this->getRequest($url);
-            $mockId = $this->mockManager->nameFromUri($request->getRequestTarget());
+            $requestContent = $request->getBody()->getContents();
+            $mockId = $this->mockManager->nameFromUri($request->getRequestTarget(), $requestContent);
 
-            if (!$this->mockManager->load($mockId, $origin->getName())) {
+            if (!$this->mockManager->load($mockId, $origin->getName(), $request->getMethod(), $requestContent)) {
                 $mock = new Mock();
                 $mock
                     ->setId($mockId)
@@ -43,7 +44,7 @@ class ProxyController extends AbstractProxyController
                 $content = $response->getContent();
                 $mock->setContent($content);
 
-                $this->mockManager->save($mock);
+                $this->mockManager->save($mock, $request);
             }
         }
 
