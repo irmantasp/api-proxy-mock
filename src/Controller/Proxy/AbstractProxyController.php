@@ -40,15 +40,15 @@ class AbstractProxyController extends AbstractController
     final public function getRequest(?string $url): RequestInterface
     {
         $request = ServerRequestFactory::fromGlobals();
-        if ($url) {
-            $request = $request->withUri($this->getUri($url, $request), true);
-        }
-
-        return $request;
+        return $request->withUri($this->getUri($url, $request), true);
     }
 
-    private function getUri(string $url, RequestInterface $request): UriInterface
+    private function getUri(?string $url, RequestInterface $request): UriInterface
     {
+        if (is_null($url)) {
+            $url = '';
+        }
+
         if (strpos($url, '/') !== 0) {
             $url = '/' . $url;
         }
