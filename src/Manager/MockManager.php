@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\Mock;
 use App\Repository\MockRepository;
+use Psr\Http\Message\RequestInterface;
 
 class MockManager
 {
@@ -16,9 +17,9 @@ class MockManager
         $this->originManager = $originManager;
     }
 
-    final public function save(Mock $mock): bool
+    final public function save(Mock $mock, ?RequestInterface $request = null): bool
     {
-        return $this->repository->save($mock);
+        return $this->repository->save($mock, $request);
     }
 
     final public function load(string $mockId, ?string $originId = null, ?string $method = null, ?string $content = null): ?Mock
@@ -59,9 +60,9 @@ class MockManager
         return $this->repository->exists($mockId, $originId);
     }
 
-    final public function nameFromUri(string $uri): string
+    final public function nameFromUri(string $uri, ?string $content = null): string
     {
-        return $this->repository->name($uri);
+        return $this->repository->name($uri, $content);
     }
 
 }
