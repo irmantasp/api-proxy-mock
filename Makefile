@@ -14,9 +14,9 @@ up:
 	docker-compose pull
 	docker-compose up -d --remove-orphans
 
-mutagen:
-	docker-compose up -d mutagen
-	mutagen project start -f mutagen/config.yml
+buildup:
+	docker-compose pull
+	docker-compose up --build -d --remove-orphans $(filter-out $@,$(MAKECMDGOALS))
 
 ## down	:	Stop containers.
 down: stop
