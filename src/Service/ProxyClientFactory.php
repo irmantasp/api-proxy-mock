@@ -2,9 +2,13 @@
 
 namespace App\Service;
 
+use App\Proxy\Adapter\GuzzleAdapter;
 use App\Proxy\Filter\AddAcceptEncodingFilter;
+use App\Proxy\Filter\RemoveDevelopmentHeadersFilter;
+use App\Proxy\Filter\RemoveForwardHeadersFilter;
+use App\Proxy\Filter\RemoveHeadersFilter;
+use App\Proxy\Filter\RemoveOriginFilter;
 use GuzzleHttp\Client;
-use Proxy\Adapter\Guzzle\GuzzleAdapter;
 use Proxy\Filter\RemoveEncodingFilter;
 use Proxy\Filter\RemoveLocationFilter;
 use Proxy\Proxy;
@@ -34,6 +38,10 @@ class ProxyClientFactory implements ProxyClientFactoryInterface
     {
         $proxy->filter(new RemoveEncodingFilter());
         $proxy->filter(new RemoveLocationFilter());
+        $proxy->filter(new RemoveOriginFilter());
+        $proxy->filter(new RemoveForwardHeadersFilter());
+        $proxy->filter(new RemoveDevelopmentHeadersFilter());
+        $proxy->filter(new RemoveHeadersFilter());
         $proxy->filter(new AddAcceptEncodingFilter());
     }
 }
