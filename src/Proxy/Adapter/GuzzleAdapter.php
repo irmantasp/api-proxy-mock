@@ -17,8 +17,6 @@ class GuzzleAdapter extends BaseGuzzleAdapter
         }
 
         return $this->client->request($method, $this->getUri($request), $this->getData($request));
-
-
     }
 
     private function isFormPost(RequestInterface $request): bool
@@ -26,7 +24,6 @@ class GuzzleAdapter extends BaseGuzzleAdapter
         $contentType = $request->getHeaderLine('Content-Type');
 
         return (strpos($contentType, 'form-data') !== false);
-
     }
 
     private function getData(RequestInterface $request): array
