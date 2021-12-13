@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 
 services:
   php:
@@ -7,6 +7,12 @@ services:
     environment:
       PHP_FPM_USER: wodby
       PHP_FPM_GROUP: wodby
+      PHP_XDEBUG: 1
+      PHP_XDEBUG_MODE: debug
+      PHP_IDE_CONFIG: "serverName={PROJECT_BASE_URL}"
+      PHP_XDEBUG_IDEKEY: $PHP_XDEBUG_IDEKEY
+      PHP_XDEBUG_CLIENT_HOST: $PHP_XDEBUG_CLIENT_HOST
+      PHP_XDEBUG_LOG: /var/www/html/var/log/php-xdebug.log
     volumes:
     - ./:/var/www/html
 
@@ -27,10 +33,10 @@ services:
     - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
 
   traefik:
-    image: traefik:v2.0
+    image: traefik:${TRAEFIK_TAG}
     container_name: "${PROJECT_NAME}_traefik"
     command: --api.insecure=true --providers.docker
     ports:
-    - '80:80'
+    - '${TRAEFIK_HTTP_PORT}:80'
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
