@@ -2,7 +2,6 @@
 /.idea
 /.vscode
 /assets
-/bin
 /docs
 /node_modules
 /public/build

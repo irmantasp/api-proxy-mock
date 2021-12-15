@@ -1,15 +1,16 @@
-FROM php:7.4-apache
+FROM php:7.4-fpm-alpine
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-COPY . /api-proxy-mock/
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=symfonycorp/cli /symfony /usr/bin/symfony
 
 WORKDIR /api-proxy-mock/
 
-RUN cp .env.build .env
-RUN rm .env.build
-
-RUN sed -ri -e 's!/var/www/html!/api-proxy-mock/public!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!/api-proxy-mock/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+COPY . /api-proxy-mock/
+RUN cp .env.build .env && rm .env.build
 
 RUN composer install --no-interaction --no-plugins --no-scripts --no-dev --prefer-dist
+
+RUN chown www-data:www-data -R /api-proxy-mock
+
+EXPOSE 8000
+CMD ["symfony", "server:start", "--dir=/api-proxy-mock/public", "--port=8000", "-vvv"]

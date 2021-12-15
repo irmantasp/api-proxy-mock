@@ -11,7 +11,7 @@ help : docker.mk
 ## up	:	Start up containers.
 up:
 	@echo "Starting up containers for for $(PROJECT_NAME)..."
-	docker-compose pull
+#	docker-compose pull
 	docker-compose up -d --remove-orphans
 
 buildup:
