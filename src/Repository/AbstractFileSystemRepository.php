@@ -51,7 +51,7 @@ abstract class AbstractFileSystemRepository
         if (static::REPOSITORY === self::REPOSITORY) {
             return trim($name);
         }
-        return trim(sprintf('%s/%s', static::REPOSITORY, $name));
+        return str_replace('//', '/', sprintf('%s/%s', static::REPOSITORY, $name));
     }
 
 }
