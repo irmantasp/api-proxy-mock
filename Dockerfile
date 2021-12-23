@@ -10,6 +10,8 @@ RUN cp .env.build .env && rm .env.build
 
 RUN composer install --no-interaction --no-plugins --no-scripts --no-dev --prefer-dist
 
+RUN chmod -R 777 /api-proxy-mock/var
+
 RUN chown www-data:www-data -R /api-proxy-mock
 
 EXPOSE 8000
