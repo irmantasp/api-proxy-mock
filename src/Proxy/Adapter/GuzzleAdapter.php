@@ -24,7 +24,7 @@ class GuzzleAdapter extends BaseGuzzleAdapter
     {
         $contentType = $this->getHeaderLine('Content-Type');
 
-        return (strpos($contentType, 'form-data') !== false);
+        return ((strpos($contentType, 'form-data') !== false) || (strpos($contentType, 'x-www-form-urlencoded') !== false));
     }
 
     private function getData(RequestInterface $request): array
