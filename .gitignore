@@ -15,4 +15,10 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 .idea
+.vscode
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
 
