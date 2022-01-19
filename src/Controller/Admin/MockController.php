@@ -5,10 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Mock;
 use App\Form\MockDeleteType;
 use App\Form\MockType;
-use App\Form\OriginDeleteType;
 use App\Form\OriginMockType;
-use App\Manager\MockManager;
 use App\Manager\OriginManagerInterface;
+use App\Manager\RequestMockManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +15,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MockController extends AbstractController
 {
-    protected MockManager $manager;
+    protected RequestMockManager $manager;
     protected OriginManagerInterface $originManager;
 
-    public function __construct(MockManager $mockManager, OriginManagerInterface $originManager)
+    public function __construct(RequestMockManager $mockManager, OriginManagerInterface $originManager)
     {
         $this->manager = $mockManager;
         $this->originManager = $originManager;
@@ -27,7 +26,7 @@ class MockController extends AbstractController
 
     final public function all(Request $request): Response
     {
-        $mocks = $this->manager->loadMultiple();
+        $mocks = $this->manager->loadAll();
 
         return $this->render('admin/mock/list.html.twig', ['title' => 'Records', 'mocks' => $mocks, 'origin' => null]);
     }
@@ -38,7 +37,7 @@ class MockController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $mocks = $this->manager->loadMultiple([], $origin_id);
+        $mocks = $this->manager->loadByOrigin($origin);
 
         return $this->render('admin/mock/list.html.twig', ['title' => 'Records for ' . $origin->getLabel() . ' origin', 'mocks' => $mocks, 'origin' => $origin]);
     }
@@ -79,9 +78,9 @@ class MockController extends AbstractController
         return $this->render('admin/mock/add.html.twig', ['title' => 'Add mock record', 'form' => $form->createView()]);
     }
 
-    final public function edit(string $origin_id, string $mock_id, string $method, Request $request)
+    final public function edit(string $origin_id, string $mock_id, Request $request)
     {
-        if (!$mock = $this->manager->load($mock_id, $origin_id, $method)) {
+        if (!$mock = $this->manager->load($mock_id, $origin_id)) {
             throw new NotFoundHttpException();
         }
 
@@ -100,9 +99,9 @@ class MockController extends AbstractController
         return $this->render('admin/mock/edit.html.twig', ['title' => 'Edit mock for ' . $mock->getOrigin()->getHost() . $mock->getUri(), 'form' => $form->createView(), 'mock' => $mock]);
     }
 
-    final public function delete(string $origin_id, string $mock_id, string $method, Request $request)
+    final public function delete(string $origin_id, string $mock_id, Request $request)
     {
-        if (!$mock = $this->manager->load($mock_id, $origin_id, $method)) {
+        if (!$mock = $this->manager->load($mock_id, $origin_id)) {
             throw new NotFoundHttpException();
         }
 

@@ -31,8 +31,6 @@ class ProxyClientFactory implements ProxyClientFactoryInterface
             'allow_redirects' => (bool) $_ENV['APP_PROXY_ALLOW_REDIRECTS'],
         ];
 
-        dump($clientConfig);die;
-
         return new Client($clientConfig);
     }
 

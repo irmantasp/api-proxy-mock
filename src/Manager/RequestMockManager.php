@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Mock;
+use App\Entity\Origin;
 use App\Repository\RequestMockRepository;
 use App\Utility\FilePathUtility;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,6 +36,7 @@ class RequestMockManager
 
     final public function save(Mock $mock): bool
     {
+        $mock->setOrigin();
         return $this->repository->save($mock);
     }
 
@@ -42,7 +44,42 @@ class RequestMockManager
     {
         $mockFilePath = $this->repository->getFilePath($originId, $this->getPathFromId($mockId));
 
-        return $this->repository->load($mockFilePath);
+        $mock = $this->repository->load($mockFilePath);
+        if ($mock instanceof Mock) {
+            $mock->setOrigin($this->originManager->load($originId));
+        }
+
+        return $mock;
+    }
+
+    final public function loadAll(): array
+    {
+        $mocks = $this->repository->loadAll();
+
+        return array_map(function ($mock) {
+            $originId = $mock->getOriginId();
+            $mock->setOrigin($this->originManager->load($originId));
+
+            return $mock;
+        }, $mocks);
+    }
+
+    final public function loadByOrigin(Origin $origin): array
+    {
+        $mocks = $this->repository->loadByOriginPath($origin);
+
+        return array_map(static function ($mock) use ($origin) {
+            $mock->setOrigin($origin);
+
+            return $mock;
+        }, $mocks);
+    }
+
+    final public function delete(Mock $mock): bool
+    {
+        $mockFilePath = $this->repository->getFilePathFromMock($mock);
+
+        return $this->repository->delete($mockFilePath);
     }
 
     final public function exists(string $mockId, string $originId = null): bool

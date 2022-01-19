@@ -1,6 +1,6 @@
 {% extends 'admin/mock/layout.html.twig' %}
 
-{% block title %}Delete mock record{% endblock %}
+{% block title %}Edit mock record{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -48,7 +48,7 @@
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
 
         <a href="{{ path('admin.mock.list', {'origin_id': mock.originId}) }}" class="btn btn-outline-secondary">Cancel</a>
-        <a href="{{ path('admin.mock.delete', {'origin_id': mock.originId, 'mock_id': mock.id, 'method': mock.method}) }}" class="btn btn-danger">Delete</a>
+        <a href="{{ path('admin.mock.delete', {'origin_id': mock.originId, 'mock_id': mock.id}) }}" class="btn btn-danger">Delete</a>
 
         {{ form_end(form) }}
         </div>

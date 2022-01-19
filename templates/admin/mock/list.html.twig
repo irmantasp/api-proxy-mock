@@ -46,8 +46,8 @@
                         </td>
                         <td class="text-end">
                             <a class="btn" target="_blank" href="{{ '/mock/' ~ mock.origin.name ~ mock.uri }}">View</a>
-                            <a class="btn btn-primary" href="{{ path('admin.mock.edit', { 'origin_id': mock.origin.name, 'mock_id': mock.id, 'method': mock.method|lower }) }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ path('admin.mock.delete', { 'origin_id': mock.origin.name, 'mock_id': mock.id, 'method': mock.method|lower }) }}">Delete</a>
+                            <a class="btn btn-primary" href="{{ path('admin.mock.edit', { 'origin_id': mock.origin.name, 'mock_id': mock.id }) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ path('admin.mock.delete', { 'origin_id': mock.origin.name, 'mock_id': mock.id }) }}">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
