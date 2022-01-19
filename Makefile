@@ -64,6 +64,9 @@ composer:
 logs:
 	@docker-compose logs -f $(filter-out $@,$(MAKECMDGOALS))
 
+server:
+	@symfony serve --dir public
+
 # https://stackoverflow.com/a/6273809/1826109
 %:
 	@:

@@ -5,6 +5,7 @@ namespace App\Entity;
 class Mock
 {
     private ?string $id;
+    private ?string $filePath;
     private ?string $originId;
     public ?Origin $origin = null;
     private ?string $uri;
@@ -28,6 +29,24 @@ class Mock
     final public function setId(string $id): Mock
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    final public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * @param string|null $filePath
+     * @return Mock
+     */
+    final public function setFilePath(?string $filePath): Mock
+    {
+        $this->filePath = $filePath;
         return $this;
     }
 

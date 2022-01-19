@@ -6,7 +6,10 @@ use App\Entity\Mock;
 use App\Entity\Origin;
 use App\Manager\MockManager;
 use App\Manager\OriginManagerInterface;
+use App\Manager\RequestMockManager;
 use App\Service\ProxyClientInterface;
+use App\Utility\FilePathUtility;
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProxyController extends AbstractProxyController
@@ -14,7 +17,7 @@ class ProxyController extends AbstractProxyController
 
     private $mockManager;
 
-    public function __construct(OriginManagerInterface $originManager, ProxyClientInterface $proxyService, MockManager $mockManager)
+    public function __construct(OriginManagerInterface $originManager, ProxyClientInterface $proxyService, RequestMockManager $mockManager)
     {
         parent::__construct($originManager, $proxyService);
 
@@ -27,14 +30,15 @@ class ProxyController extends AbstractProxyController
 
         $origin = $this->manager->load($origin_id);
         if ($origin && $origin->getRecord() === true) {
+            /** @var ServerRequestInterface $request */
             $request = $this->getRequest($url);
-            $requestContent = $request->getBody()->getContents();
-            $mockId = $this->mockManager->nameFromUri($request->getRequestTarget(), $requestContent);
+            $mockId = $this->mockManager->getId($request);
 
-            if (!$this->mockManager->load($mockId, $origin->getName(), $request->getMethod(), $requestContent)) {
+            if (!$this->mockManager->exists($mockId, $origin->getName())) {
                 $mock = new Mock();
                 $mock
                     ->setId($mockId)
+                    ->setFilePath(FilePathUtility::name($request))
                     ->setOriginId($origin_id)
                     ->setUri($request->getRequestTarget())
                     ->setMethod($request->getMethod())
@@ -44,7 +48,7 @@ class ProxyController extends AbstractProxyController
                 $content = $response->getContent();
                 $mock->setContent($content);
 
-                $this->mockManager->save($mock, $request);
+                $this->mockManager->save($mock);
             }
         }
 
