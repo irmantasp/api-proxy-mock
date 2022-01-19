@@ -38,6 +38,7 @@ class RequestMockRepository extends AbstractFileSystemRepository
         }
 
         $headers = $mock->getHeaders();
+        unset($headers['content-length']);
         $headers['content-length'][] = strlen($mock->getContent());
         $mock->setHeaders($headers);
 
