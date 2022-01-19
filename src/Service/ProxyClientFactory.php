@@ -27,8 +27,8 @@ class ProxyClientFactory implements ProxyClientFactoryInterface
     private function getClient(): Client
     {
         $clientConfig = [
-            'verify' => false,
-            'allow_redirects' => true,
+            'verify' => (bool) $_ENV['APP_PROXY_ALLOW_VERIFY_SSL'],
+            'allow_redirects' => (bool) $_ENV['APP_PROXY_ALLOW_REDIRECTS'],
         ];
 
         return new Client($clientConfig);

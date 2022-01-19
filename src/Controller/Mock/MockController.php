@@ -2,10 +2,11 @@
 
 namespace App\Controller\Mock;
 
-use App\Manager\MockManager;
 use App\Manager\OriginManagerInterface;
+use App\Manager\RequestMockManager;
 use Laminas\Diactoros\ServerRequestFactory;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,11 +15,11 @@ class MockController extends AbstractController
 {
 
     protected OriginManagerInterface $manager;
-    protected MockManager $mockManager;
+    protected RequestMockManager $mockManager;
 
     public function __construct(
         OriginManagerInterface $originManager,
-        MockManager $mockManager
+        RequestMockManager $mockManager
     ) {
         $this->manager = $originManager;
         $this->mockManager = $mockManager;
@@ -34,11 +35,11 @@ class MockController extends AbstractController
             throw new \RuntimeException('No origin host definition found', 500);
         }
 
+        /** @var ServerRequestInterface $request */
         $request = $this->getRequest($url);
-        $requestContent = $request->getBody()->getContents();
-        $mockId = $this->mockManager->nameFromUri($request->getRequestTarget(), $requestContent);
+        $mockId = $this->mockManager->getId($request);
 
-        if (!$mock = $this->mockManager->load($mockId, $origin->getName(), $request->getMethod(), $requestContent)) {
+        if (!$mock = $this->mockManager->load($mockId, $origin->getName())) {
             throw new \RuntimeException('No mock record found', 404);
         }
 

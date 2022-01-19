@@ -2,17 +2,17 @@
 
 namespace App\Controller\Admin;
 
-use App\Manager\MockManager;
 use App\Manager\OriginManagerInterface;
+use App\Manager\RequestMockManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends AbstractController
 {
     private OriginManagerInterface $originManager;
-    private MockManager $mockManager;
+    private RequestMockManager $mockManager;
 
-    public function __construct(OriginManagerInterface $originManager, MockManager $mockManager)
+    public function __construct(OriginManagerInterface $originManager, RequestMockManager $mockManager)
     {
         $this->originManager = $originManager;
         $this->mockManager = $mockManager;
@@ -39,7 +39,7 @@ class DashboardController extends AbstractController
 
     private function getMocks(): array
     {
-        $mocks = $this->mockManager->loadMultiple();
+        $mocks = $this->mockManager->loadAll();
         asort($mocks);
         return array_slice($mocks, 0, 10, true);
     }
