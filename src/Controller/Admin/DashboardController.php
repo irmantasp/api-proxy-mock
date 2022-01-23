@@ -40,8 +40,15 @@ class DashboardController extends AbstractController
     private function getMocks(): array
     {
         $mocks = $this->mockManager->loadAll();
-        asort($mocks);
+        $this->sortByDate($mocks);
         return array_slice($mocks, 0, 10, true);
+    }
+
+    private function sortByDate(array &$mocks): void
+    {
+        uasort($mocks, static function ($first, $second) {
+            return $second->getDate() <=> $first->getDate();
+        });
     }
 
 }

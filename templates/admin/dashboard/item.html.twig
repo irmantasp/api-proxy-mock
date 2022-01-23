@@ -73,6 +73,7 @@
             <table class="table table-striped table-borderless">
                 <thead class="thead-dark">
                 <tr>
+                    <th>Created</th>
                     <th>Origin</th>
                     <th>Method</th>
                     <th>Status</th>
@@ -83,13 +84,16 @@
                 {% if mocks is not empty %}
                     {% for mock in mocks %}
                         <tr>
+                            <td>{% if mock.date is not empty %}{{ mock.date }}{% else %}-{% endif %}</td>
                             <td>
-                                {{ mock.origin.label }}
+                                <a href="{{ path('admin.mock.list', {'origin_id': mock.origin.name}) }}">
+                                    {{ mock.origin.label }}
+                                </a>
                             </td>
                             <td>{{ mock.method }}</td>
                             <td>{{ mock.status }}</td>
                             <td>
-                                <a target="_blank" href="{{ mock.origin.host ~ mock.uri }}">{{ mock.origin.host ~ mock.uri }}</a>
+                                <a target="_blank" href="{{ mock.origin.host ~ mock.uri }}">{{ mock.uri }}</a>
                             </td>
                             <td class="text-end">
                                 <a class="btn" target="_blank" href="{{ '/mock/' ~ mock.origin.name ~ mock.uri }}">View</a>

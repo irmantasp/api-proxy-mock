@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Uid\Uuid;
+
 class Mock
 {
     private ?string $id;
-    private ?string $filePath;
+    private ?string $uuid = null;
+    private ?string $date = null;
+    private ?string $filePath = null;
     private ?string $originId;
     public ?Origin $origin = null;
     private ?string $uri;
@@ -13,6 +17,12 @@ class Mock
     private ?string $status;
     private ?array $headers;
     private $content;
+
+    public function __construct()
+    {
+        $this->setUuid(Uuid::v4());
+        $this->setDate();
+    }
 
     /**
      * @return string|null
@@ -31,6 +41,44 @@ class Mock
         $this->id = $id;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    final public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string|null $uuid
+     * @return Mock
+     */
+    final public function setUuid(?string $uuid): Mock
+    {
+        $this->uuid = $uuid;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+     final public function getDate(): ?string
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string|null $date
+     * @return Mock
+     */
+    final public function setDate(?string $date = null): Mock
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+
 
     /**
      * @return string|null

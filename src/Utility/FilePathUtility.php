@@ -8,6 +8,25 @@ use Psr\Http\Message\ServerRequestInterface;
 class FilePathUtility
 {
 
+    private const IGNORE_HEADERS = [
+      'connection',
+      'date',
+      'cookie',
+      'user-agent',
+      'upgrade-insecure-requests',
+      'referer',
+      'host',
+      'cache-control',
+      'pragma',
+      'sec-ch-ua',
+      'sec-ch-ua-mobile',
+      'sec-ch-ua-platform',
+      'sec-fetch-site',
+      'sec-fetch-mode',
+      'sec-fetch-user',
+      'sec-fetch-dest',
+    ];
+
     final public static function name(ServerRequestInterface $request): string
     {
         return vsprintf('%s/%s/%s-%s-%s.json', static::nameParts($request));
@@ -41,7 +60,9 @@ class FilePathUtility
     private static function getHeaderHash(ServerRequestInterface $request): string
     {
         $headers = $request->getHeaders() ?? [];
-        unset($headers['date'], $headers['cookie']);
+        foreach (static::IGNORE_HEADERS as $header) {
+            unset($headers[$header]);
+        }
 
         return static::getHash($headers);
     }

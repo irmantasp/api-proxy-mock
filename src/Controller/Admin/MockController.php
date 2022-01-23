@@ -9,6 +9,7 @@ use App\Form\OriginMockType;
 use App\Manager\OriginManagerInterface;
 use App\Manager\RequestMockManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -27,6 +28,7 @@ class MockController extends AbstractController
     final public function all(Request $request): Response
     {
         $mocks = $this->manager->loadAll();
+        $this->sortByDate($mocks);
 
         return $this->render('admin/mock/list.html.twig', ['title' => 'Records', 'mocks' => $mocks, 'origin' => null]);
     }
@@ -38,6 +40,7 @@ class MockController extends AbstractController
         }
 
         $mocks = $this->manager->loadByOrigin($origin);
+        $this->sortByDate($mocks);
 
         return $this->render('admin/mock/list.html.twig', ['title' => 'Records for ' . $origin->getLabel() . ' origin', 'mocks' => $mocks, 'origin' => $origin]);
     }
@@ -52,6 +55,14 @@ class MockController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mock = $form->getData();
+            $mock->setId($this->manager->getIdFromMock($mock));
+
+            if ($this->manager->fileExists($mock)) {
+                $form->addError(new FormError('File in entered file path already exists!'));
+
+                return $this->render('admin/mock/add.html.twig', ['title' => 'Add mock record', 'form' => $form->createView()]);
+            }
+
             $this->manager->save($mock);
 
             return $this->redirectToRoute('admin.mock.list', ['origin_id' => $origin_id]);
@@ -69,6 +80,13 @@ class MockController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $mock = $form->getData();
             $this->mapFromFormData($mock);
+            $mock->setId($this->manager->getIdFromMock($mock));
+
+            if ($this->manager->fileExists($mock)) {
+                $form->addError(new FormError('File in entered file path already exists!'));
+
+                return $this->render('admin/mock/add.html.twig', ['title' => 'Add mock record', 'form' => $form->createView()]);
+            }
 
             $this->manager->save($mock);
 
@@ -91,6 +109,7 @@ class MockController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $mock = $form->getData();
             $this->mapFromFormData($mock);
+            $mock->setDate(date('Y-m-d H:i:s'));
             $this->manager->save($mock);
 
             return $this->redirectToRoute('admin.mock.list', ['origin_id' => $origin_id]);
@@ -144,6 +163,13 @@ class MockController extends AbstractController
             }
             $mock->setHeaders($cleanHeaders);
         }
+    }
+
+    private function sortByDate(array &$mocks): void
+    {
+        uasort($mocks, static function ($first, $second) {
+            return $second->getDate() <=> $first->getDate();
+        });
     }
 
 }
