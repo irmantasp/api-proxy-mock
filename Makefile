@@ -58,7 +58,7 @@ composer:
 	docker exec -ti -e COLUMNS=$(shell tput cols) -e LINES=$(shell tput lines) $(shell docker ps --filter name='$(PROJECT_NAME)_php' --format "{{ .ID }}") composer $(filter-out $@,$(MAKECMDGOALS))
 
 ## logs	:	View containers logs.
-##		You can optinally pass an argument with the service name to limit logs
+##		You can optionally pass an argument with the service name to limit logs
 ##		logs php	: View `php` container logs.
 ##		logs nginx php	: View `nginx` and `php` containers logs.
 logs:
@@ -66,6 +66,13 @@ logs:
 
 server:
 	@symfony serve --dir public
+
+build:
+	@docker build --no-cache -t irmpdz/api-proxy-mock:$(filter-out $@,$(MAKECMDGOALS)) -t irmpdz/api-proxy-mock:latest .
+
+push:
+	@docker push irmpdz/api-proxy-mock:$(filter-out $@,$(MAKECMDGOALS))
+	@docker push irmpdz/api-proxy-mock:latest
 
 # https://stackoverflow.com/a/6273809/1826109
 %:
