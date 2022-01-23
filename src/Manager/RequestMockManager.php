@@ -24,6 +24,10 @@ class RequestMockManager
         return base64_encode(FilePathUtility::name($request));
     }
 
+    final public function getIdFromMock(Mock $mock): string {
+        return base64_encode($mock->getFilePath());
+    }
+
     final public function getPathFromRequest(ServerRequestInterface $request): string
     {
         return FilePathUtility::name($request);
@@ -85,6 +89,12 @@ class RequestMockManager
     final public function exists(string $mockId, string $originId = null): bool
     {
         $mockFilePath = $this->getPathFromId($mockId);
+
+        return $this->repository->exists($mockFilePath);
+    }
+
+    final public function fileExists(Mock $mock): bool {
+        $mockFilePath = $this->repository->getFilePathFromMock($mock);
 
         return $this->repository->exists($mockFilePath);
     }

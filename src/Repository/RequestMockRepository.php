@@ -6,6 +6,7 @@ use App\Entity\Mock;
 use App\Entity\Origin;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
+use Symfony\Component\Uid\Uuid;
 
 class RequestMockRepository extends AbstractFileSystemRepository
 {
@@ -13,6 +14,7 @@ class RequestMockRepository extends AbstractFileSystemRepository
 
     final public function exists(string $filePath): bool
     {
+
         return $this->storage->fileExists($filePath);
     }
 
@@ -29,8 +31,13 @@ class RequestMockRepository extends AbstractFileSystemRepository
 
     final public function load(string $filePath): ?Mock
     {
+        if (!$this->exists($filePath)) {
+            return null;
+        }
+
         try {
             $data = $this->storage->read($filePath);
+            /** @var Mock $mock */
             $mock = $this->dataProcessor->deserialize($data, Mock::class, static::FORMAT);
         }
         catch (FilesystemException $e) {
@@ -41,6 +48,14 @@ class RequestMockRepository extends AbstractFileSystemRepository
         unset($headers['content-length']);
         $headers['content-length'][] = strlen($mock->getContent());
         $mock->setHeaders($headers);
+
+        if (is_null($mock->getUuid())) {
+            $mock->setUuid(Uuid::v4());
+        }
+
+        if (is_null($mock->getDate())) {
+            $mock->setDate();
+        }
 
         return $mock;
     }

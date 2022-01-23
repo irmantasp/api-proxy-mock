@@ -11,6 +11,7 @@ use App\Service\ProxyClientInterface;
 use App\Utility\FilePathUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Uid\Uuid;
 
 class ProxyController extends AbstractProxyController
 {
@@ -38,6 +39,8 @@ class ProxyController extends AbstractProxyController
                 $mock = new Mock();
                 $mock
                     ->setId($mockId)
+                    ->setUuid(Uuid::v4())
+                    ->setDate(date('Y-m-d H:i:s'))
                     ->setFilePath(FilePathUtility::name($request))
                     ->setOriginId($origin_id)
                     ->setUri($request->getRequestTarget())

@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Mock;
+use App\Entity\Origin;
 use App\Form\Extension\Type\HeaderType;
 use App\Manager\OriginManagerInterface;
 use Symfony\Component\Form\AbstractType;
@@ -10,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,6 +78,23 @@ class MockType extends AbstractType
             ->add('content', TextareaType::class, [
                 'required' => false
             ])
+            ->add('filePath', TextType::class, [
+                'disabled' => !$this->isNew($options),
+            ])
             ->add('submit', SubmitType::class);
+    }
+
+    private function isNew(array $options = []): bool {
+        if (!isset($options['data'])) {
+            return true;
+        }
+
+        $data = $options['data'];
+
+        if ($data instanceof Mock) {
+            return is_null($data->getFilePath());
+        }
+
+        return true;
     }
 }
