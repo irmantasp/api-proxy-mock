@@ -29,6 +29,63 @@
                 {{ form_label(form.log) }}
             </div>
 
+            <div class="form-group">
+                <label for="ignore-headers-fields-list">Ignore headers</label>
+                <div
+                        id="ignore-headers-fields-list"
+                        data-prototype="{{ form_widget(form.ignoreHeaders.vars.prototype)|e }}"
+                        data-widget-tags="{{ '<div class="ignore_headers_entry"></div>'|e }}"
+                        data-widget-counter="{{ form.ignoreHeaders|length }}"
+                >
+                {% for headerField in form.ignoreHeaders %}
+                    <div class="ignore_headers_entry">
+                        {{ form_errors(headerField) }}
+                        {{ form_widget(headerField) }}
+                    </div>
+                {% endfor %}
+                </div>
+                <button
+                        type="button"
+                        class="add-another-collection-widget btn btn-outline-primary"
+                        data-list-selector="#ignore-headers-fields-list"
+                >
+                    +
+                </button>
+            </div>
+
+            {% do form.ignoreHeaders.setRendered() %}
+
+            <div class="form-group">
+                <label for="ignore-content-fields-list">Ignore content properties</label>
+                <div
+                    id="ignore-content-fields-list"
+                    data-prototype="{{ form_widget(form.ignoreContent.vars.prototype)|e }}"
+                    data-widget-tags="{{ '<div class="ignore_content_entry"></div>'|e }}"
+                    data-widget-counter="{{ form.ignoreContent|length }}"
+                >
+                {% for contentField in form.ignoreContent %}
+                    <div class="ignore_content_entry">
+                        {{ form_errors(contentField) }}
+                        {{ form_widget(contentField) }}
+                    </div>
+                {% endfor %}
+                </div>
+                <button
+                    type="button"
+                    class="add-another-collection-widget btn btn-outline-primary"
+                    data-list-selector="#ignore-content-fields-list"
+                >
+                    +
+                </button>
+            </div>
+
+            {% do form.ignoreContent.setRendered() %}
+
+            <div class="form-check">
+                {{ form_widget(form.ignoreFiles) }}
+                {{ form_label(form.ignoreFiles) }}
+            </div>
+
         <hr class="my-4">
 
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}

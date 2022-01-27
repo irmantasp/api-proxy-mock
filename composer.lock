@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c19bc17e5342dd90cb8bca18a7067897",
+    "content-hash": "2bd39d36aef420735ee2207c09c18c97",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1670,6 +1670,61 @@
                 "source": "https://github.com/relayphp/Relay.Relay/tree/1.x"
             },
             "time": "2015-12-17T18:18:30+00:00"
+        },
+        {
+            "name": "rexlabs/utility-belt",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rexlabsio/utility-belt-php.git",
+                "reference": "e0a5908cc222bd072ab130732607c8953afdc040"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rexlabsio/utility-belt-php/zipball/e0a5908cc222bd072ab130732607c8953afdc040",
+                "reference": "e0a5908cc222bd072ab130732607c8953afdc040",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5",
+                "satooshi/php-coveralls": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rexlabs\\UtilityBelt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Babkov",
+                    "email": "alex.babkov@rexsoftware.com.au",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A set of helpful utilities for working with data, collections (arrays of arrays) and arrays in php",
+            "keywords": [
+                "array",
+                "collection",
+                "dot read",
+                "dot syntax",
+                "filter",
+                "map recursive",
+                "nested read",
+                "utilities",
+                "utility"
+            ],
+            "support": {
+                "source": "https://github.com/rexlabsio/utility-belt-php/tree/3.0.1"
+            },
+            "time": "2018-02-26T00:09:14+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
