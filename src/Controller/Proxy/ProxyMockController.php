@@ -47,6 +47,11 @@ class ProxyMockController extends AbstractProxyController
                     ->setStatus($response->getStatusCode())
                     ->setHeaders($response->headers->all());
 
+
+                if ($origin->getSaveOriginalRequest() === true) {
+                    $mock->setRequest($request);
+                }
+
                 $content = $response->getContent();
                 $mock->setContent($content);
 

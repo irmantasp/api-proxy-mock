@@ -44,6 +44,16 @@ class OriginType extends AbstractType
                     'class' => 'form-check-label'
                 ],
             ])
+            ->add('saveOriginalRequest', CheckboxType::class, [
+                'label' => 'Should request be recorded along with mock?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
             ->add('submit', SubmitType::class);
     }
 }

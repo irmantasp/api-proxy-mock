@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Psr\Http\Message\RequestInterface;
 use Symfony\Component\Uid\Uuid;
 
 class Mock
@@ -12,6 +13,7 @@ class Mock
     private ?string $filePath = null;
     private ?string $originId;
     public ?Origin $origin = null;
+    private $request;
     private ?string $uri;
     private ?string $method;
     private ?string $status;
@@ -131,6 +133,32 @@ class Mock
     public function setOrigin(?Origin $origin = null): Mock
     {
         $this->origin = $origin;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParsedRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return RequestInterface|null
+     */
+    public function getRequest(): ?RequestInterface
+    {
+        return $this->request instanceof RequestInterface ? $this->request : null;
+    }
+
+    /**
+     * @param RequestInterface|null $request
+     * @return Mock
+     */
+    public function setRequest(?RequestInterface $request): Mock
+    {
+        $this->request = $request;
         return $this;
     }
 

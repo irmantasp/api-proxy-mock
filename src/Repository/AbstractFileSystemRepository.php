@@ -2,13 +2,19 @@
 
 namespace App\Repository;
 
+use App\Normalizer\RequestNormalizer;
 use Cocur\Slugify\SlugifyInterface;
 use League\Flysystem\FilesystemOperator;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\YamlEncoder;
+use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 abstract class AbstractFileSystemRepository
@@ -44,7 +50,8 @@ abstract class AbstractFileSystemRepository
     private function getNormalizers(): array
     {
         return [
-          new ObjectNormalizer(),
+            new PropertyNormalizer(),
+            new ObjectNormalizer(),
         ];
     }
 

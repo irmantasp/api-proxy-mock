@@ -21,6 +21,9 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Created</th>
+                    {% if origin is none %}
+                    <th>Origin</th>
+                    {% endif %}
                     <th>Method</th>
                     <th>Status</th>
                     <th colspan="2">Original request URL</th>
@@ -31,6 +34,11 @@
                 {% for mock in mocks %}
                     <tr>
                         <td class="created">{% if mock.date is not empty %}{{ mock.date }}{% else %}-{% endif %}</td>
+                        {% if origin is none %}
+                            <td class="origin">
+                                <a href="{{ path('admin.mock.list', { 'origin_id': mock.origin.name }) }}">{{ mock.origin.label }}</a>
+                            </td>
+                        {% endif %}
                         <td class="method">{{ mock.method }}</td>
                         <td class="status">{{ mock.status }}</td>
                         <td class="uri">

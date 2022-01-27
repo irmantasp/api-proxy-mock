@@ -4,8 +4,11 @@ namespace App\Repository;
 
 use App\Entity\Mock;
 use App\Entity\Origin;
+use App\Factory\ServerRequestFactory;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
+use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Uid\Uuid;
 
 class RequestMockRepository extends AbstractFileSystemRepository
@@ -22,7 +25,9 @@ class RequestMockRepository extends AbstractFileSystemRepository
     {
         $mockFilePath = $this->getFilePathFromMock($mock);
         try {
-            $this->storage->write($mockFilePath, $this->dataProcessor->serialize($mock, static::FORMAT));
+            $this->storage->write($mockFilePath, $this->dataProcessor->serialize($mock, static::FORMAT, [
+                AbstractNormalizer::IGNORED_ATTRIBUTES => ['stream'],
+            ]));
             return true;
         } catch (FilesystemException $e) {
             return false;
@@ -55,6 +60,10 @@ class RequestMockRepository extends AbstractFileSystemRepository
 
         if (is_null($mock->getDate())) {
             $mock->setDate();
+        }
+
+        if (!empty($mock->getParsedRequest())) {
+            $this->setRequest($mock);
         }
 
         return $mock;
@@ -112,6 +121,13 @@ class RequestMockRepository extends AbstractFileSystemRepository
     final public function getFilePath(string $originId, string $mockFilePath): string
     {
         return $this->filePath(sprintf('%s/%s', $originId, $mockFilePath));
+    }
+
+    private function setRequest(Mock $mock): void {
+        $request = ServerRequestFactory::createFromParsedRequestArray($mock->getParsedRequest());
+        if ($request instanceof ServerRequestInterface) {
+            $mock->setRequest($request);
+        }
     }
 
 }

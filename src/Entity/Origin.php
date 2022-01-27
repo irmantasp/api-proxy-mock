@@ -8,6 +8,7 @@ class Origin
     private ?string $label = null;
     private ?string $host = null;
     private ?bool $record = false;
+    private ?bool $saveOriginalRequest = false;
 
     /**
      * @return string|null
@@ -80,6 +81,25 @@ class Origin
         $this->record = $record;
         return $this;
     }
+
+    /**
+     * @return bool|null
+     */
+    final public function getSaveOriginalRequest(): ?bool
+    {
+        return $this->saveOriginalRequest;
+    }
+
+    /**
+     * @param bool|null $saveOriginalRequest
+     * @return Origin
+     */
+    final public function setSaveOriginalRequest(?bool $saveOriginalRequest = false): Origin
+    {
+        $this->saveOriginalRequest = $saveOriginalRequest;
+        return $this;
+    }
+
 
     final public function isNew(): bool
     {
