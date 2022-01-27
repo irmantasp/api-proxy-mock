@@ -54,6 +54,16 @@ class OriginType extends AbstractType
                     'class' => 'form-check-label'
                 ],
             ])
+            ->add('log', CheckboxType::class, [
+                'label' => 'Should original request and response be written to logs?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
             ->add('submit', SubmitType::class);
     }
 }

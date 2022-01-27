@@ -9,6 +9,7 @@ class Origin
     private ?string $host = null;
     private ?bool $record = false;
     private ?bool $saveOriginalRequest = false;
+    private ?bool $log = false;
 
     /**
      * @return string|null
@@ -100,6 +101,23 @@ class Origin
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
+    public function getLog(): ?bool
+    {
+        return $this->log;
+    }
+
+    /**
+     * @param bool|null $log
+     * @return Origin
+     */
+    public function setLog(?bool $log): Origin
+    {
+        $this->log = $log;
+        return $this;
+    }
 
     final public function isNew(): bool
     {

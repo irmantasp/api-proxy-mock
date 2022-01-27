@@ -23,6 +23,7 @@
                     <th>Host</th>
                     <th>Mocks</th>
                     <th>Requests</th>
+                    <th>Logs</th>
                     <th colspan="2"></th>
                 </tr>
                 </thead>
@@ -44,6 +45,13 @@
                             </td>
                             <td>
                                 {% if origin.saveOriginalRequest %}
+                                    <h4><span class="badge bg-success">Yes</span></h4>
+                                {% else %}
+                                    <h4><span class="badge bg-danger">No</span></h4>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if origin.log %}
                                     <h4><span class="badge bg-success">Yes</span></h4>
                                 {% else %}
                                     <h4><span class="badge bg-danger">No</span></h4>

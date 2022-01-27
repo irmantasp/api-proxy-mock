@@ -32,6 +32,10 @@ class AbstractProxyController extends AbstractController
             throw new \RuntimeException('No origin host definition found', 500);
         }
 
+        if ($origin->getLog() === true) {
+            $this->proxy->enableLogging();
+        }
+
         $request = $this->getRequest($url);
 
         return $this->proxy->forwardRequest($request, $host);

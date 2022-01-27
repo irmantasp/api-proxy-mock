@@ -8,4 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 interface ProxyClientInterface
 {
     public function forwardRequest(RequestInterface $request, string $host): Response;
+
+    public function enableLogging(bool $log = true): void;
 }
