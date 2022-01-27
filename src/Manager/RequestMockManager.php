@@ -19,18 +19,18 @@ class RequestMockManager
         $this->originManager = $originManager;
     }
 
-    final public function getId(ServerRequestInterface $request): string
+    final public function getId(ServerRequestInterface $request, array $ignoreContext = []): string
     {
-        return base64_encode(FilePathUtility::name($request));
+        return base64_encode(FilePathUtility::name($request, $ignoreContext));
     }
 
     final public function getIdFromMock(Mock $mock): string {
         return base64_encode($mock->getFilePath());
     }
 
-    final public function getPathFromRequest(ServerRequestInterface $request): string
+    final public function getPathFromRequest(ServerRequestInterface $request, array $ignoreContext = []): string
     {
-        return FilePathUtility::name($request);
+        return FilePathUtility::name($request, $ignoreContext);
     }
 
     final public function getPathFromId(string $mockId): string

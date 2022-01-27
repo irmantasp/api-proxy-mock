@@ -31,7 +31,7 @@ class ProxyMockController extends AbstractProxyController
         if ($origin && $origin->getRecord() === true) {
             /** @var ServerRequestInterface $request */
             $request = $this->getRequest($url);
-            $mockId = $this->mockManager->getId($request);
+            $mockId = $this->mockManager->getId($request, $origin->getIgnore());
 
             $mock = $this->mockManager->load($mockId, $origin->getName());
             if (!$mock) {
@@ -40,7 +40,7 @@ class ProxyMockController extends AbstractProxyController
                     ->setId($mockId)
                     ->setUuid(Uuid::v4())
                     ->setDate(date('Y-m-d H:i:s'))
-                    ->setFilePath(FilePathUtility::name($request))
+                    ->setFilePath(FilePathUtility::name($request, $origin->getIgnore()))
                     ->setOriginId($origin_id)
                     ->setUri($request->getRequestTarget())
                     ->setMethod($request->getMethod())

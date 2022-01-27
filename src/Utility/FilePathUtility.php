@@ -4,6 +4,7 @@ namespace App\Utility;
 
 use Cocur\Slugify\Slugify;
 use Psr\Http\Message\ServerRequestInterface;
+use Rexlabs\UtilityBelt\ArrayUtility;
 
 class FilePathUtility
 {
@@ -27,19 +28,23 @@ class FilePathUtility
       'sec-fetch-dest',
     ];
 
-    final public static function name(ServerRequestInterface $request): string
+    final public static function name(ServerRequestInterface $request, array $ignore = []): string
     {
-        return vsprintf('%s/%s/%s-%s-%s.json', static::nameParts($request));
+        return vsprintf('%s/%s/%s-%s-%s.json', static::nameParts($request, $ignore));
     }
 
-    final public static function nameParts(ServerRequestInterface $request): array
+    final public static function nameParts(ServerRequestInterface $request, array $ignore = []): array
     {
+        $ignoreHeaders = $ignore['headers'] ?? [];
+        $ignoreContent = $ignore['content'] ?? [];
+        $ignoreFiles = (bool) $ignore['files'];
+
         return [
             static::getUri($request),
             static::getMethod($request),
-            static::getHeaderHash($request),
-            static::getContentHash($request),
-            static::getFilesHash($request),
+            static::getHeaderHash($request, $ignoreHeaders),
+            static::getContentHash($request, $ignoreContent),
+            static::getFilesHash($request, $ignoreFiles),
         ];
     }
 
@@ -57,25 +62,34 @@ class FilePathUtility
         return strtolower($request->getMethod());
     }
 
-    private static function getHeaderHash(ServerRequestInterface $request): string
+    private static function getHeaderHash(ServerRequestInterface $request, array $ignoreHeaders = []): string
     {
+        $ignoreHeaders = array_merge(static::IGNORE_HEADERS, $ignoreHeaders);
         $headers = $request->getHeaders() ?? [];
-        foreach (static::IGNORE_HEADERS as $header) {
+        foreach ($ignoreHeaders as $header) {
             unset($headers[$header]);
         }
 
         return static::getHash($headers);
     }
 
-    private static function getContentHash(ServerRequestInterface $request): string
+    private static function getContentHash(ServerRequestInterface $request, array $ignoreContent = []): string
     {
         $content = $request->getParsedBody() ?? [];
+        if (!empty($ignoreContent)) {
+            $content = json_decode(json_encode($content), true);
+            foreach ($ignoreContent as $ignoreContentEntry) {
+                $content = ArrayUtility::dotWrite($content, $ignoreContentEntry);
+            }
+        }
+
         return static::getHash($content);
     }
 
-    private static function getFilesHash(ServerRequestInterface $request): string
+    private static function getFilesHash(ServerRequestInterface $request, bool $ignoreFiles = false): string
     {
-        $files = $request->getUploadedFiles() ?? [];
+        $files = $ignoreFiles ? $request->getUploadedFiles() : [];
+
         return static::getHash($files);
     }
 

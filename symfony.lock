@@ -173,6 +173,9 @@
     "relay/relay": {
         "version": "1.1.0"
     },
+    "rexlabs/utility-belt": {
+        "version": "3.0.1"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },

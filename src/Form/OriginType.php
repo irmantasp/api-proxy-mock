@@ -6,6 +6,7 @@ use App\Entity\Origin;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -55,6 +56,36 @@ class OriginType extends AbstractType
                 ],
             ])
             ->add('log', CheckboxType::class, [
+                'label' => 'Should original request and response be written to logs?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
+            ->add('ignoreHeaders', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'prototype'    => true,
+                'attr'         => [
+                    'class' => "ignore-headers-collection",
+                ],
+                'entry_options' => []
+            ])
+            ->add('ignoreContent', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'prototype'    => true,
+                'attr'         => [
+                    'class' => "ignore-headers-collection",
+                ],
+                'entry_options' => []
+            ])
+            ->add('ignoreFiles', CheckboxType::class, [
                 'label' => 'Should original request and response be written to logs?',
                 'required' => false,
                 'attr' => [
