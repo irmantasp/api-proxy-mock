@@ -9,25 +9,6 @@ use Rexlabs\UtilityBelt\ArrayUtility;
 class FilePathUtility
 {
 
-    private const IGNORE_HEADERS = [
-      'connection',
-      'date',
-      'cookie',
-      'user-agent',
-      'upgrade-insecure-requests',
-      'referer',
-      'host',
-      'cache-control',
-      'pragma',
-      'sec-ch-ua',
-      'sec-ch-ua-mobile',
-      'sec-ch-ua-platform',
-      'sec-fetch-site',
-      'sec-fetch-mode',
-      'sec-fetch-user',
-      'sec-fetch-dest',
-    ];
-
     final public static function name(ServerRequestInterface $request, array $ignore = []): string
     {
         return vsprintf('%s/%s/%s-%s-%s.json', static::nameParts($request, $ignore));
@@ -64,7 +45,6 @@ class FilePathUtility
 
     private static function getHeaderHash(ServerRequestInterface $request, array $ignoreHeaders = []): string
     {
-        $ignoreHeaders = array_merge(static::IGNORE_HEADERS, $ignoreHeaders);
         $headers = $request->getHeaders() ?? [];
         foreach ($ignoreHeaders as $header) {
             unset($headers[$header]);
