@@ -26,7 +26,9 @@
                     {% endif %}
                     <th>Method</th>
                     <th>Status</th>
-                    <th colspan="2">Original request URL</th>
+                    <th>Request</th>
+                    <th>Original request URL</th>
+                    <th colspan="2"></th>
                 </tr>
             </thead>
             <tbody class="list">
@@ -41,6 +43,13 @@
                         {% endif %}
                         <td class="method">{{ mock.method }}</td>
                         <td class="status">{{ mock.status }}</td>
+                        <td class="request">
+                        {% if mock.request is not empty %}
+                            <h4><span class="badge bg-success">Yes</span></h4>
+                        {% else %}
+                            <h4><span class="badge bg-danger">No</span></h4>
+                        {% endif %}
+                        </td>
                         <td class="uri">
                             <a target="_blank" href="{{ mock.origin.host ~ mock.uri }}">{{ mock.uri }}</a>
                         </td>
@@ -53,7 +62,7 @@
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="4">There are no mocks created or recorded from existing proxy origins.</td>
+                    <td colspan="6">There are no mocks created or recorded from existing proxy origins.</td>
                 </tr>
             {% endif %}
                 </tr>
