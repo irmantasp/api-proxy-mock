@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Origin;
+use App\Form\Extension\Type\IgnoreContentType;
+use App\Form\Extension\Type\IgnoreHeaderType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -50,9 +52,18 @@ class OriginType extends AbstractType
 
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var Origin $data */
+        /** @var Origin $origin */
         $origin = $builder->getData();
-        $ignoreHeadersData = $this->isNew($options) ? static::IGNORE_HEADERS_DEFAULT : $origin->getIgnoreHeaders();
+        $ignoreHeaders = $this->isNew($options) ? static::IGNORE_HEADERS_DEFAULT : $origin->getIgnoreHeaders();
+        $ignoreHeadersData = [];
+        foreach ($ignoreHeaders as $ignoredHeader) {
+            $ignoreHeadersData[$ignoredHeader] = ['value' => $ignoredHeader];
+        }
+
+        $ignoreContentData = [];
+        foreach ($origin->getIgnoreContent() as $ignoreContent) {
+            $ignoreContentData[$ignoreContent] = ['value' => $ignoreContent];
+        }
 
         $builder
             ->add('name', TextType::class, ['disabled' => !$this->isNew($options)])
@@ -89,7 +100,7 @@ class OriginType extends AbstractType
                 ],
             ])
             ->add('ignoreHeaders', CollectionType::class, [
-                'entry_type' => TextType::class,
+                'entry_type' => IgnoreHeaderType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'prototype'    => true,
@@ -97,20 +108,29 @@ class OriginType extends AbstractType
                 'attr'         => [
                     'class' => "ignore-headers-collection",
                 ],
-                'entry_options' => []
+                'entry_options' => [
+                    'attr' => [
+                        'class' => 'input-group mb-3'
+                    ]
+                ]
             ])
             ->add('ignoreContent', CollectionType::class, [
-                'entry_type' => TextType::class,
+                'entry_type' => IgnoreContentType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'prototype'    => true,
+                'data' => $ignoreContentData,
                 'attr'         => [
-                    'class' => "ignore-headers-collection",
+                    'class' => "ignore-content-collection",
                 ],
-                'entry_options' => []
+                'entry_options' => [
+                    'attr' => [
+                        'class' => 'input-group mb-3'
+                    ]
+                ]
             ])
             ->add('ignoreFiles', CheckboxType::class, [
-                'label' => 'Should original request and response be written to logs?',
+                'label' => 'Ignore file attachments',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-check-input'

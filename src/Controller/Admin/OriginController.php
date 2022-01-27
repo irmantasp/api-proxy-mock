@@ -35,6 +35,7 @@ class OriginController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $origin = $form->getData();
+            $this->mapFromFormData($origin);
             if (!$origin->getName()) {
                 $this->manager->save($origin);
             }
@@ -56,6 +57,7 @@ class OriginController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $origin = $form->getData();
+            $this->mapFromFormData($origin);
             if ($this->manager->exists($origin->getName())) {
                 $this->manager->save($origin);
             }
@@ -83,5 +85,24 @@ class OriginController extends AbstractController
         }
 
         return $this->render('admin/origin/delete.html.twig', ['title' => 'Delete ' . $origin->getLabel() . ' origin', 'form' => $form->createView(), 'origin' => $origin->getHost()]);
+    }
+
+    final private function mapFromFormData(Origin $origin): void
+    {
+        $ignoreHeaders = $origin->getIgnoreHeaders();
+        foreach ($ignoreHeaders as $entry => $ignoreHeader) {
+            if (is_array($ignoreHeader) && isset($ignoreHeader['value'])) {
+                $ignoreHeaders[$entry] = $ignoreHeader['value'];
+            }
+        }
+        $origin->setIgnoreHeaders($ignoreHeaders);
+
+        $ignoreContent = $origin->getIgnoreContent();
+        foreach ($ignoreContent as $entry => $ignoreContentEntry) {
+            if (is_array($ignoreContentEntry) && isset($ignoreContentEntry['value'])) {
+                $ignoreContent[$entry] = $ignoreContentEntry['value'];
+            }
+        }
+        $origin->setIgnoreContent($ignoreContent);
     }
 }
