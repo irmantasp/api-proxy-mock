@@ -6,26 +6,42 @@
     <div class="row">
         <div class="container">
         {{ form_start(form) }}
-
         {{ form_errors(form) }}
 
-        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.label, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.host, {'attr': {'class': 'form-control'}}) }}
-
-            <div class="form-check">
-            {{ form_widget(form.record) }}
-            {{ form_label(form.record) }}
+            <div class="form-group mb-4">
+                <div class="card p-4">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.label, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.host, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="form-group">
+                <div class="card p-4">
+                    <div class="row ps-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.record) }}
+                            {{ form_label(form.record) }}
+                        </div>
 
-            <div class="form-check">
-                {{ form_widget(form.saveOriginalRequest) }}
-                {{ form_label(form.saveOriginalRequest) }}
-            </div>
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.saveOriginalRequest) }}
+                            {{ form_label(form.saveOriginalRequest) }}
+                        </div>
 
-            <div class="form-check">
-                {{ form_widget(form.log) }}
-                {{ form_label(form.log) }}
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.log) }}
+                            {{ form_label(form.log) }}
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
