@@ -39,9 +39,6 @@ class IgnoreContentType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'someProperty.someChildProperty or attribute.childAttribute.key',
                 ],
-                'row_attr' => [
-                    'class' => 'col'
-                ]
             ])
             ->add('remove', ButtonType::class, [
                 'label' => '-',
@@ -49,9 +46,6 @@ class IgnoreContentType extends AbstractType
                     'class' => 'btn btn-outline-primary ignore_content_entry--remove',
                     'onclick' => 'this.closest(".ignore_content_entry").remove()'
                 ],
-                'row_attr' => [
-                    'class' => 'col'
-                ]
             ]);
     }
 }

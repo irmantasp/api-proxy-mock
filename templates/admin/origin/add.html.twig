@@ -21,7 +21,8 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+
+        <div class="form-group mb-4">
             <div class="card p-4">
                 <div class="row ps-3">
                     <div class="form-check mb-3">
@@ -42,68 +43,95 @@
             </div>
         </div>
 
-            <div class="form-group">
-                <label for="ignore-headers-fields-list">Ignore headers</label>
-                <div
-                        id="ignore-headers-fields-list"
-                        data-prototype="{{ form_widget(form.ignoreHeaders.vars.prototype)|e }}"
-                        data-widget-tags="{{ '<div class="ignore_headers_entry"></div>'|e }}"
-                        data-widget-counter="{{ form.ignoreHeaders|length }}"
-                >
-                {% for headerField in form.ignoreHeaders %}
-                    <div class="ignore_headers_entry">
-                        {{ form_errors(headerField) }}
-                        {{ form_widget(headerField) }}
+        <div class="form-group mb-4">
+            <div class="card">
+                <div class="card-header">Ignore request payload parameters</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="d-inline-block mb-3">
+                                        <h5>Headers</h5>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        class="add-another-collection-widget btn btn-primary position-relative float-end align-top"
+                                        data-list-selector="#ignore-headers-fields-list"
+                                    >+</button>
+                                    <div class="row">
+                                        <div
+                                            id="ignore-headers-fields-list"
+                                            data-prototype="{{ form_widget(form.ignoreHeaders.vars.prototype)|e }}"
+                                            data-widget-tags="{{ '<div class="ignore_headers_entry input-group"></div>'|e }}"
+                                            data-widget-counter="{{ form.ignoreHeaders|length }}"
+                                        >
+                                        {% for headerField in form.ignoreHeaders %}
+                                            <div class="ignore_headers_entry input-group">
+                                                {{ form_errors(headerField) }}
+                                                {{ form_widget(headerField) }}
+                                            </div>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% do form.ignoreHeaders.setRendered() %}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="d-inline-block mb-3">
+                                        <h5>Content properties</h5>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        class="add-another-collection-widget btn btn-primary position-relative float-end align-top"
+                                        data-list-selector="#ignore-content-fields-list"
+                                    >+</button>
+                                    <div class="row">
+                                        <div
+                                            id="ignore-content-fields-list"
+                                            data-prototype="{{ form_widget(form.ignoreContent.vars.prototype)|e }}"
+                                            data-widget-tags="{{ '<div class="ignore_content_entry"></div>'|e }}"
+                                            data-widget-counter="{{ form.ignoreContent|length }}"
+                                        >
+                                        {% for contentField in form.ignoreContent %}
+                                            <div class="ignore_content_entry">
+                                                {{ form_errors(contentField) }}
+                                                {{ form_widget(contentField) }}
+                                            </div>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% do form.ignoreContent.setRendered() %}
+                            </div>
+                        </div>
                     </div>
-                {% endfor %}
-                </div>
-                <button
-                        type="button"
-                        class="add-another-collection-widget btn btn-outline-primary"
-                        data-list-selector="#ignore-headers-fields-list"
-                >
-                    +
-                </button>
-            </div>
-
-            {% do form.ignoreHeaders.setRendered() %}
-
-            <div class="form-group">
-                <label for="ignore-content-fields-list">Ignore content properties</label>
-                <div
-                    id="ignore-content-fields-list"
-                    data-prototype="{{ form_widget(form.ignoreContent.vars.prototype)|e }}"
-                    data-widget-tags="{{ '<div class="ignore_content_entry"></div>'|e }}"
-                    data-widget-counter="{{ form.ignoreContent|length }}"
-                >
-                {% for contentField in form.ignoreContent %}
-                    <div class="ignore_content_entry">
-                        {{ form_errors(contentField) }}
-                        {{ form_widget(contentField) }}
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-inline-block mb-3">
+                                        <h5>Other request payload parameters</h5>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        {{ form_widget(form.ignoreFiles) }}
+                                        {{ form_label(form.ignoreFiles) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                {% endfor %}
                 </div>
-                <button
-                    type="button"
-                    class="add-another-collection-widget btn btn-outline-primary"
-                    data-list-selector="#ignore-content-fields-list"
-                >
-                    +
-                </button>
             </div>
+        </div>
 
-            {% do form.ignoreContent.setRendered() %}
-
-            <div class="form-check">
-                {{ form_widget(form.ignoreFiles) }}
-                {{ form_label(form.ignoreFiles) }}
-            </div>
-
-        <hr class="my-4">
-
-        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
-
-        <a href="{{ path('admin.origin.list') }}" class="btn btn-outline-secondary">Cancel</a>
+        <div class="form-group mt-5 mb-5">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
+            <a href="{{ path('admin.origin.list') }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
 
         {{ form_end(form) }}
         </div>

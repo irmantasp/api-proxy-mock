@@ -39,9 +39,6 @@ class IgnoreHeaderType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Header',
                 ],
-                'row_attr' => [
-                    'class' => 'col'
-                ]
             ])
             ->add('remove', ButtonType::class, [
                 'label' => '-',
@@ -49,9 +46,6 @@ class IgnoreHeaderType extends AbstractType
                     'class' => 'btn btn-outline-primary ignore_header_entry--remove',
                     'onclick' => 'this.closest(".ignore_headers_entry").remove()'
                 ],
-                'row_attr' => [
-                    'class' => 'col'
-                ]
             ]);
     }
 }

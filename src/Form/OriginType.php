@@ -57,12 +57,12 @@ class OriginType extends AbstractType
         $ignoreHeaders = $this->isNew($options) ? static::IGNORE_HEADERS_DEFAULT : $origin->getIgnoreHeaders();
         $ignoreHeadersData = [];
         foreach ($ignoreHeaders as $ignoredHeader) {
-            $ignoreHeadersData[$ignoredHeader] = ['value' => $ignoredHeader];
+            $ignoreHeadersData[] = ['value' => $ignoredHeader];
         }
 
         $ignoreContentData = [];
         foreach ($origin->getIgnoreContent() as $ignoreContent) {
-            $ignoreContentData[$ignoreContent] = ['value' => $ignoreContent];
+            $ignoreContentData[] = ['value' => $ignoreContent];
         }
 
         $builder

@@ -40,11 +40,11 @@
                     <div
                         id="headers-fields-list"
                         data-prototype="{{ form_widget(form.headers.vars.prototype)|e }}"
-                        data-widget-tags="{{ '<div class="headers_entry"></div>'|e }}"
+                        data-widget-tags="{{ '<div class="headers_entry input-group"></div>'|e }}"
                         data-widget-counter="{{ form.headers|length }}"
                     >
                     {% for headerField in form.headers %}
-                        <div class="headers_entry input-group mb-3">
+                        <div class="headers_entry input-group">
                         {{ form_errors(headerField) }}
                         {{ form_widget(headerField) }}
                         </div>
