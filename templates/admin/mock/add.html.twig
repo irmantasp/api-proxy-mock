@@ -6,47 +6,68 @@
     <div class="row">
         <div class="container">
         {{ form_start(form) }}
-
         {{ form_errors(form) }}
 
-        {{ form_row(form.originId, {'attr': {'class': 'form-control'}})}}
-        {{ form_row(form.uri, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.method, {'attr': {'class': 'form-control'}}) }}
-        {{ form_row(form.status, {'attr': {'class': 'form-control'}}) }}
-
-        <div class="form-group">
-            <label for="headers-fields-list">Headers</label>
-            <div
-                    id="headers-fields-list"
-                    data-prototype="{{ form_widget(form.headers.vars.prototype)|e }}"
-                    data-widget-tags="{{ '<div class="headers_entry"></div>'|e }}"
-                    data-widget-counter="{{ form.headers|length }}"
-            >
-            {% for headerField in form.headers %}
-                <div class="headers_entry">
-                    {{ form_errors(headerField) }}
-                    {{ form_widget(headerField) }}
+        <div class="form-group mb-4">
+            <div class="card p-4">
+                <div class="row">
+                    <div class="col">
+                    {{ form_row(form.originId, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                    <div class="col">
+                    {{ form_row(form.method, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="col">
+                    {{ form_row(form.status, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                 </div>
-            {% endfor %}
+            {{ form_row(form.uri, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.filePath, {'attr': {'class': 'form-control'}}) }}
             </div>
-
-            <button
-                    type="button"
-                    class="add-another-collection-widget btn btn-outline-primary"
-                    data-list-selector="#headers-fields-list"
-            >
-                +
-            </button>
         </div>
 
-        {% do form.headers.setRendered() %}
+        <div class="form-group mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-inline-block">Headers</div>
+                    <button
+                        type="button"
+                        class="add-another-collection-widget btn btn-primary position-relative float-end align-top"
+                        data-list-selector="#headers-fields-list"
+                    >+</button>
+                </div>
+                <div class="card-body">
+                    <div
+                        id="headers-fields-list"
+                        data-prototype="{{ form_widget(form.headers.vars.prototype)|e }}"
+                        data-widget-tags="{{ '<div class="headers_entry"></div>'|e }}"
+                        data-widget-counter="{{ form.headers|length }}"
+                    >
+                    {% for headerField in form.headers %}
+                        <div class="headers_entry input-group mb-3">
+                        {{ form_errors(headerField) }}
+                        {{ form_widget(headerField) }}
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% do form.headers.setRendered() %}
+        </div>
 
-        {{ form_row(form.content, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-group mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Content
+                </div>
+                <div class="card-body">
+                    {{ form_errors(form.content) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
 
-        {{ form_row(form.filePath, {'attr': {'class': 'form-control'}}) }}
-
-        <hr class="my-4">
-
+        <div class="form-group mt-5 mb-5">
         {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
 
         {% if form.originId.vars.value %}
@@ -54,6 +75,7 @@
         {% else %}
             <a href="{{ path('admin.mock.list.complete') }}" class="btn btn-outline-secondary">Cancel</a>
         {% endif %}
+        </div>
 
         {{ form_end(form) }}
         </div>

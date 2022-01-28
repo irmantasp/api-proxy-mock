@@ -38,9 +38,6 @@ class HeaderType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Header',
                 ],
-                'row_attr' => [
-                    'class' => 'col'
-                ]
             ])
             ->add('value', TextType::class, [
                 'label' => false,
@@ -48,9 +45,6 @@ class HeaderType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Value',
                 ],
-                'row_attr' => [
-                    'class' => 'col'
-                ]
             ])
             ->add('remove', ButtonType::class, [
                 'label' => '-',
@@ -58,9 +52,6 @@ class HeaderType extends AbstractType
                     'class' => 'btn btn-outline-primary header_entry--remove',
                     'onclick' => 'this.closest(".headers_entry").remove()'
                 ],
-                'row_attr' => [
-                    'class' => 'col'
-                ]
             ]);
     }
 }

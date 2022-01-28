@@ -29,6 +29,7 @@ $(function() {
             lineNumbers: true,
             viewportMargin: Infinity
         });
+
     }
 
     let originMockContent = document.getElementById("origin_mock_content");
@@ -38,4 +39,6 @@ $(function() {
             viewportMargin: Infinity
         });
     }
+
+    $('.CodeMirror').addClass('border border-secondary')
 });
