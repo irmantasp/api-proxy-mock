@@ -2,6 +2,9 @@
     "cocur/slugify": {
         "version": "dev-master"
     },
+    "composer/pcre": {
+        "version": "1.0.1"
+    },
     "composer/xdebug-handler": {
         "version": "1.4.3"
     },
