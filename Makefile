@@ -71,6 +71,8 @@ build:
 	@docker build --no-cache -t irmpdz/api-proxy-mock:$(filter-out $@,$(MAKECMDGOALS)) -t irmpdz/api-proxy-mock:latest .
 
 push:
+	@git tag $(filter-out $@,$(MAKECMDGOALS))
+	@git push origin $(filter-out $@,$(MAKECMDGOALS))
 	@docker push irmpdz/api-proxy-mock:$(filter-out $@,$(MAKECMDGOALS))
 	@docker push irmpdz/api-proxy-mock:latest
 
