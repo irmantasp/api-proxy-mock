@@ -29,6 +29,51 @@ class FilePathUtility
         ];
     }
 
+    final public static function namePartsKeyed(ServerRequestInterface $request, array $ignore = []): array
+    {
+        $ignoreHeaders = $ignore['headers'] ?? [];
+        $ignoreContent = $ignore['content'] ?? [];
+        $ignoreFiles = (bool) $ignore['files'];
+
+        return [
+            'uri'       => static::getUri($request),
+            'method'    => static::getMethod($request),
+            'headers'   => static::getHeaderHash($request, $ignoreHeaders),
+            'content'   => static::getContentHash($request, $ignoreContent),
+            'files'     => static::getFilesHash($request, $ignoreFiles),
+        ];
+    }
+
+    final public static function originalNameParts(ServerRequestInterface $request, array $ignore = []): array
+    {
+        $ignoreHeaders = $ignore['headers'] ?? [];
+        $ignoreContent = $ignore['content'] ?? [];
+        $ignoreFiles = (bool) $ignore['files'];
+
+        return [
+            static::getUri($request),
+            static::getMethod($request),
+            static::getHeaders($request, $ignoreHeaders),
+            static::getContent($request, $ignoreContent),
+            static::getFiles($request, $ignoreFiles),
+        ];
+    }
+
+    final public static function originalNamePartsKeyed(ServerRequestInterface $request, array $ignore = []): array
+    {
+        $ignoreHeaders = $ignore['headers'] ?? [];
+        $ignoreContent = $ignore['content'] ?? [];
+        $ignoreFiles = (bool) $ignore['files'];
+
+        return [
+            'uri'       => static::getUri($request),
+            'method'    => static::getMethod($request),
+            'headers'   => static::getHeaders($request, $ignoreHeaders),
+            'content'   => static::getContent($request, $ignoreContent),
+            'files'     => static::getFiles($request, $ignoreFiles),
+        ];
+    }
+
     private static function getUri(ServerRequestInterface $request): string
     {
         $slugify = new Slugify();
@@ -45,32 +90,45 @@ class FilePathUtility
 
     private static function getHeaderHash(ServerRequestInterface $request, array $ignoreHeaders = []): string
     {
+        return static::getHash(static::getHeaders($request, $ignoreHeaders));
+    }
+
+    private static function getHeaders(ServerRequestInterface $request, array $ignoreHeaders = []): array
+    {
         $headers = $request->getHeaders() ?? [];
         foreach ($ignoreHeaders as $header) {
             unset($headers[$header]);
         }
 
-        return static::getHash($headers);
+        return $headers;
     }
 
     private static function getContentHash(ServerRequestInterface $request, array $ignoreContent = []): string
     {
+        return static::getHash(static::getContent($request, $ignoreContent));
+    }
+
+    private static function getContent(ServerRequestInterface $request, array $ignoreContent = []): array
+    {
         $content = $request->getParsedBody() ?? [];
         if (!empty($ignoreContent)) {
-            $content = json_decode(json_encode($content), true);
+            $content = json_decode(json_encode($content, JSON_THROW_ON_ERROR), true, 2048, JSON_THROW_ON_ERROR);
             foreach ($ignoreContent as $ignoreContentEntry) {
                 $content = ArrayUtility::dotWrite($content, $ignoreContentEntry);
             }
         }
 
-        return static::getHash($content);
+        return $content;
     }
 
     private static function getFilesHash(ServerRequestInterface $request, bool $ignoreFiles = false): string
     {
-        $files = $ignoreFiles ? $request->getUploadedFiles() : [];
+        return static::getHash(static::getFiles($request, $ignoreFiles));
+    }
 
-        return static::getHash($files);
+    private static function getFiles(ServerRequestInterface $request, bool $ignoreFiles = false): array
+    {
+        return $ignoreFiles ? $request->getUploadedFiles() : [];
     }
 
     public static function getHash(array $content = []): string

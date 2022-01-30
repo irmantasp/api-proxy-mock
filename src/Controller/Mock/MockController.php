@@ -4,6 +4,7 @@ namespace App\Controller\Mock;
 
 use App\Manager\OriginManagerInterface;
 use App\Manager\RequestMockManager;
+use App\Utility\FilePathUtility;
 use Laminas\Diactoros\ServerRequestFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,13 +18,16 @@ class MockController extends AbstractController
 
     protected OriginManagerInterface $manager;
     protected RequestMockManager $mockManager;
+    protected LoggerInterface $logger;
 
     public function __construct(
         OriginManagerInterface $originManager,
-        RequestMockManager $mockManager
+        RequestMockManager $mockManager,
+        LoggerInterface $logger
     ) {
         $this->manager = $originManager;
         $this->mockManager = $mockManager;
+        $this->logger = $logger;
     }
 
     final public function mock(string $origin_id, ?string $url): Response
@@ -41,6 +45,8 @@ class MockController extends AbstractController
         $mockId = $this->mockManager->getId($request, $origin->getIgnore());
 
         if (!$mock = $this->mockManager->load($mockId, $origin->getName())) {
+            $error = sprintf('No mock record found, where filepath name parts are: %s', json_encode(FilePathUtility::originalNamePartsKeyed($request, $origin->getIgnore()), JSON_THROW_ON_ERROR));
+            $this->logger->error($error);
             throw new \RuntimeException('No mock record found', 404);
         }
 
