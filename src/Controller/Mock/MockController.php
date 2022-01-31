@@ -12,6 +12,7 @@ use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Uid\Uuid;
 
 class MockController extends AbstractController
 {
@@ -45,8 +46,17 @@ class MockController extends AbstractController
         $mockId = $this->mockManager->getId($request, $origin->getIgnore());
 
         if (!$mock = $this->mockManager->load($mockId, $origin->getName())) {
-            $error = sprintf('No mock record found, where filepath name parts are: %s', json_encode(FilePathUtility::originalNamePartsKeyed($request, $origin->getIgnore()), JSON_THROW_ON_ERROR));
-            $this->logger->error($error);
+            $errors = [
+                'requestError' => sprintf('No mock record found for request URL: %s', $url),
+                'fileNamePartsError' => sprintf('No mock record found, where filepath name parts are: %s', json_encode(FilePathUtility::originalNamePartsKeyed($request, $origin->getIgnore()), JSON_THROW_ON_ERROR)),
+                'filePathError' => sprintf('No mock record found on path: %s', $this->mockManager->getPathFromId($mockId)),
+            ];
+
+            $causeNumber = Uuid::v4();
+            foreach ($errors as $error) {
+                $this->logger->critical($error, ['cause' => $causeNumber]);
+            }
+
             throw new \RuntimeException('No mock record found', 404);
         }
 
