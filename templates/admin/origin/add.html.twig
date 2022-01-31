@@ -128,6 +128,76 @@
             </div>
         </div>
 
+        <div class="form-group mb-4">
+            <div class="card">
+                <div class="card-header">Proxy client configuration</div>
+                <div class="card-body">
+                    <div class="form-check mb-3">
+                        {{ form_widget(form.proxyConfig) }}
+                        {{ form_label(form.proxyConfig) }}
+                    </div>
+                    <div class="form-group" id="proxy-config-params">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.proxyVerify) }}
+                            {{ form_label(form.proxyVerify) }}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.proxyErrors) }}
+                            {{ form_label(form.proxyErrors) }}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.proxyAllowRedirect) }}
+                            {{ form_label(form.proxyAllowRedirect) }}
+                        </div>
+                        <div class="card mb-3" id="redirect-params">
+                            <div class="card-body">
+                                {{ form_row(form.proxyRedirectParams.max, {'attr': {'class': 'form-control mb-3'}}) }}
+
+                                <div class="form-check mb-3">
+                                    {{ form_widget(form.proxyRedirectParams.strict) }}
+                                    {{ form_label(form.proxyRedirectParams.strict) }}
+                                    {{ form_help(form.proxyRedirectParams.strict) }}
+                                </div>
+                                <div class="form-check mb-3">
+                                    {{ form_widget(form.proxyRedirectParams.referer) }}
+                                    {{ form_label(form.proxyRedirectParams.referer) }}
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    {{ form_label(form.proxyRedirectParams.protocols) }}
+                                    {% for protocol in form.proxyRedirectParams.protocols %}
+                                        <div class="form-check">
+                                            {{ form_widget(protocol) }}
+                                            {{ form_label(protocol) }}
+                                        </div>
+                                    {% endfor %}
+                                    {% do form.proxyRedirectParams.protocols.setRendered() %}
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    {{ form_widget(form.proxyRedirectParams.track_redirects) }}
+                                    {{ form_label(form.proxyRedirectParams.track_redirects) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ form_row(form.proxyTimeout, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="col">
+                                {{ form_row(form.proxyVersion, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.proxyDebug) }}
+                            {{ form_label(form.proxyDebug) }}
+                            {{ form_help(form.proxyDebug) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group mt-5 mb-5">
             {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
             <a href="{{ path('admin.origin.list') }}" class="btn btn-outline-secondary">Cancel</a>

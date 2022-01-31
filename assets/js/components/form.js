@@ -41,4 +41,32 @@ $(function() {
     }
 
     $('.CodeMirror').addClass('border border-secondary')
+
+    let originProxyAllowRedirect = $('#origin_proxyAllowRedirect');
+    let originProxyRedirectParams = $('#redirect-params');
+    if (originProxyAllowRedirect.is(':checked')) {
+        originProxyRedirectParams.show();
+    }
+    else {
+        originProxyRedirectParams.hide();
+    }
+
+    originProxyAllowRedirect.click(function (e) {
+        let originProxyRedirectParams = $('#redirect-params');
+        originProxyRedirectParams.toggle($(this).is(':checked'));
+    })
+
+    let originProxyConfig = $('#origin_proxyConfig');
+    let originProxyConfigParams = $('#proxy-config-params');
+    if (originProxyConfig.is(':checked')) {
+        originProxyConfigParams.show();
+    }
+    else {
+        originProxyConfigParams.hide();
+    }
+
+    originProxyConfig.click(function (e) {
+        let originProxyConfigParams = $('#proxy-config-params');
+        originProxyConfigParams.toggle($(this).is(':checked'));
+    })
 });

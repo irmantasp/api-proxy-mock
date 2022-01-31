@@ -13,6 +13,14 @@ class Origin
     private array $ignoreHeaders = [];
     private array $ignoreContent = [];
     private bool $ignoreFiles = false;
+    private bool $proxyConfig = false;
+    private bool $proxyVerify = false;
+    private bool $proxyAllowRedirect = false;
+    private array $proxyRedirectParams = [];
+    private bool $proxyDebug = false;
+    private bool $proxyErrors = true;
+    private float $proxyTimeout = 0;
+    private float $proxyVersion = 1.1;
 
     /**
      * @return string|null
@@ -190,5 +198,148 @@ class Origin
         ];
     }
 
+    /**
+     * @return bool
+     */
+    final public function isProxyConfig(): bool
+    {
+        return $this->proxyConfig;
+    }
+
+    /**
+     * @param bool $proxyConfig
+     * @return Origin
+     */
+    final public function setProxyConfig(bool $proxyConfig): Origin
+    {
+        $this->proxyConfig = $proxyConfig;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    final public function isProxyVerify(): bool
+    {
+        return $this->proxyVerify;
+    }
+
+    /**
+     * @param bool $proxyVerify
+     * @return Origin
+     */
+    final public function setProxyVerify(bool $proxyVerify): Origin
+    {
+        $this->proxyVerify = $proxyVerify;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    final public function isProxyAllowRedirect(): bool
+    {
+        return $this->proxyAllowRedirect;
+    }
+
+    /**
+     * @param bool $proxyAllowRedirect
+     * @return Origin
+     */
+    final public function setProxyAllowRedirect(bool $proxyAllowRedirect): Origin
+    {
+        $this->proxyAllowRedirect = $proxyAllowRedirect;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    final public function getProxyRedirectParams(): array
+    {
+        return $this->proxyRedirectParams;
+    }
+
+    /**
+     * @param array $proxyRedirectParams
+     * @return Origin
+     */
+    final public function setProxyRedirectParams(array $proxyRedirectParams): Origin
+    {
+        $this->proxyRedirectParams = $proxyRedirectParams;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    final public function isProxyDebug(): bool
+    {
+        return $this->proxyDebug;
+    }
+
+    /**
+     * @param bool $proxyDebug
+     * @return Origin
+     */
+    final public function setProxyDebug(bool $proxyDebug): Origin
+    {
+        $this->proxyDebug = $proxyDebug;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    final public function isProxyErrors(): bool
+    {
+        return $this->proxyErrors;
+    }
+
+    /**
+     * @param bool $proxyErrors
+     * @return Origin
+     */
+    final public function setProxyErrors(bool $proxyErrors): Origin
+    {
+        $this->proxyErrors = $proxyErrors;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    final public function getProxyTimeout(): float
+    {
+        return $this->proxyTimeout;
+    }
+
+    /**
+     * @param float $proxyTimeout
+     * @return Origin
+     */
+    final public function setProxyTimeout(float $proxyTimeout): Origin
+    {
+        $this->proxyTimeout = $proxyTimeout;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    final public function getProxyVersion(): float
+    {
+        return $this->proxyVersion;
+    }
+
+    /**
+     * @param float $proxyVersion
+     * @return Origin
+     */
+    final public function setProxyVersion(float $proxyVersion): Origin
+    {
+        $this->proxyVersion = $proxyVersion;
+        return $this;
+    }
 
 }

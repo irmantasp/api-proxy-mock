@@ -68,6 +68,9 @@ server:
 	@symfony serve --dir public
 
 build:
+	@npm run build
+	@git commit -m "#00 Compile public assets for version $(filter-out $@,$(MAKECMDGOALS))"
+	@git push origin $(shell git symbolic-ref --short -q HEAD)
 	@docker build --no-cache -t irmpdz/api-proxy-mock:$(filter-out $@,$(MAKECMDGOALS)) -t irmpdz/api-proxy-mock:latest .
 
 push:
