@@ -57,9 +57,6 @@ class AbstractProxyController extends AbstractController
             $url = '/' . $url;
         }
 
-        $uri = $request->getUri();
-        $uri = $uri->withPath($url);
-
-        return $uri;
+        return $request->getUri()->withPath($url);
     }
 }

@@ -41,6 +41,13 @@
                             {{ form_widget(form.log) }}
                             {{ form_label(form.log) }}
                         </div>
+
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.transformOptions.hashUri) }}
+                            {{ form_label(form.transformOptions.hashUri) }}
+
+                            {% do form.transformOptions.setRendered() %}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,7 @@ class Origin
     private bool $proxyErrors = true;
     private float $proxyTimeout = 0;
     private float $proxyVersion = 1.1;
+    private array $transformOptions = [];
 
     /**
      * @return string|null
@@ -339,6 +340,24 @@ class Origin
     final public function setProxyVersion(float $proxyVersion): Origin
     {
         $this->proxyVersion = $proxyVersion;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTransformOptions(): array
+    {
+        return $this->transformOptions;
+    }
+
+    /**
+     * @param array $transformOptions
+     * @return Origin
+     */
+    public function setTransformOptions(array $transformOptions): Origin
+    {
+        $this->transformOptions = $transformOptions;
         return $this;
     }
 

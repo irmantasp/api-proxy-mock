@@ -9,19 +9,19 @@ use Rexlabs\UtilityBelt\ArrayUtility;
 class FilePathUtility
 {
 
-    final public static function name(ServerRequestInterface $request, array $ignore = []): string
+    final public static function name(ServerRequestInterface $request, array $ignore = [], array $options = []): string
     {
-        return vsprintf('%s/%s/%s-%s-%s.json', static::nameParts($request, $ignore));
+        return vsprintf('%s/%s/%s-%s-%s.json', static::nameParts($request, $ignore, $options));
     }
 
-    final public static function nameParts(ServerRequestInterface $request, array $ignore = []): array
+    final public static function nameParts(ServerRequestInterface $request, array $ignore = [], array $options = []): array
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
         $ignoreFiles = (bool) $ignore['files'];
 
         return [
-            static::getUri($request),
+            static::getUriProcessed($request, $options),
             static::getMethod($request),
             static::getHeaderHash($request, $ignoreHeaders),
             static::getContentHash($request, $ignoreContent),
@@ -29,14 +29,14 @@ class FilePathUtility
         ];
     }
 
-    final public static function namePartsKeyed(ServerRequestInterface $request, array $ignore = []): array
+    final public static function namePartsKeyed(ServerRequestInterface $request, array $ignore = [], array $options = []): array
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
         $ignoreFiles = (bool) $ignore['files'];
 
         return [
-            'uri'       => static::getUri($request),
+            'uri'       => static::getUriProcessed($request, $options),
             'method'    => static::getMethod($request),
             'headers'   => static::getHeaderHash($request, $ignoreHeaders),
             'content'   => static::getContentHash($request, $ignoreContent),
@@ -44,14 +44,14 @@ class FilePathUtility
         ];
     }
 
-    final public static function originalNameParts(ServerRequestInterface $request, array $ignore = []): array
+    final public static function originalNameParts(ServerRequestInterface $request, array $ignore = [], array $options = []): array
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
         $ignoreFiles = (bool) $ignore['files'];
 
         return [
-            static::getUri($request),
+            static::getUriProcessed($request, $options),
             static::getMethod($request),
             static::getHeaders($request, $ignoreHeaders),
             static::getContent($request, $ignoreContent),
@@ -59,19 +59,29 @@ class FilePathUtility
         ];
     }
 
-    final public static function originalNamePartsKeyed(ServerRequestInterface $request, array $ignore = []): array
+    final public static function originalNamePartsKeyed(ServerRequestInterface $request, array $ignore = [], array $options = []): array
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
         $ignoreFiles = (bool) $ignore['files'];
 
         return [
-            'uri'       => static::getUri($request),
+            'uri'       => static::getUriProcessed($request, $options),
             'method'    => static::getMethod($request),
             'headers'   => static::getHeaders($request, $ignoreHeaders),
             'content'   => static::getContent($request, $ignoreContent),
             'files'     => static::getFiles($request, $ignoreFiles),
         ];
+    }
+
+    private static function getUriProcessed(ServerRequestInterface $request, array $options = []): string
+    {
+        return static::isUriHashRequired($options) ? static::getUriHash($request) : static::getUri($request);
+    }
+
+    private static function getUriHash(ServerRequestInterface $request): string
+    {
+        return static::getHash([static::getUri($request)]);
     }
 
     private static function getUri(ServerRequestInterface $request): string
@@ -99,6 +109,8 @@ class FilePathUtility
         foreach ($ignoreHeaders as $header) {
             unset($headers[$header]);
         }
+
+        ksort($headers);
 
         return $headers;
     }
@@ -134,5 +146,14 @@ class FilePathUtility
     public static function getHash(array $content = []): string
     {
         return md5(json_encode($content, JSON_THROW_ON_ERROR));
+    }
+
+    private static function isUriHashRequired(array $options = []): bool
+    {
+        if (!isset($options['hashUri'])) {
+            return false;
+        }
+
+        return $options['hashUri'] === true;
     }
 }

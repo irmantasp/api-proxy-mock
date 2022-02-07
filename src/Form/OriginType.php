@@ -6,6 +6,7 @@ use App\Entity\Origin;
 use App\Form\Extension\Type\IgnoreContentType;
 use App\Form\Extension\Type\IgnoreHeaderType;
 use App\Form\Extension\Type\RedirectParamsType;
+use App\Form\Extension\Type\TransformOptionsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -209,9 +210,6 @@ class OriginType extends AbstractType
                     'min' => 0,
                     'step' => 1,
                 ],
-                'label_attr' => [
-                    'class' => ''
-                ],
             ])
             ->add('proxyVersion', NumberType::class, [
                 'label' => 'Protocol version to use with the request.',
@@ -220,13 +218,10 @@ class OriginType extends AbstractType
                     'min' => 1.0,
                     'step' => 0.1,
                 ],
-                'label_attr' => [
-                    'class' => ''
-                ],
+            ])
+            ->add('transformOptions', TransformOptionsType::class, [
+                'data' => $origin->getTransformOptions(),
             ])
             ->add('submit', SubmitType::class);
-
-//private array $proxyRedirectParams = [];
-
     }
 }

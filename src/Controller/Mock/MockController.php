@@ -43,12 +43,12 @@ class MockController extends AbstractController
 
         /** @var ServerRequestInterface $request */
         $request = $this->getRequest($url);
-        $mockId = $this->mockManager->getId($request, $origin->getIgnore());
+        $mockId = $this->mockManager->getId($request, $origin->getIgnore(), $origin->getTransformOptions());
 
         if (!$mock = $this->mockManager->load($mockId, $origin->getName())) {
             $errors = [
                 'requestError' => sprintf('No mock record found for request URL: %s', $url),
-                'fileNamePartsError' => sprintf('No mock record found, where filepath name parts are: %s', json_encode(FilePathUtility::originalNamePartsKeyed($request, $origin->getIgnore()), JSON_THROW_ON_ERROR)),
+                'fileNamePartsError' => sprintf('No mock record found, where filepath name parts are: %s', json_encode(FilePathUtility::originalNamePartsKeyed($request, $origin->getIgnore(), $origin->getTransformOptions()), JSON_THROW_ON_ERROR)),
                 'filePathError' => sprintf('No mock record found on path: %s', $this->mockManager->getPathFromId($mockId)),
             ];
 
@@ -79,10 +79,7 @@ class MockController extends AbstractController
             $url = '/' . $url;
         }
 
-        $uri = $request->getUri();
-        $uri = $uri->withPath($url);
-
-        return $uri;
+        return $request->getUri()->withPath($url);
     }
 
 }
