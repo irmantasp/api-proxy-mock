@@ -89,8 +89,9 @@ class RequestMockManager
     final public function exists(string $mockId, string $originId = null): bool
     {
         $mockFilePath = $this->getPathFromId($mockId);
+        $filePath = $this->repository->getFilePath($originId, $mockFilePath);
 
-        return $this->repository->exists($mockFilePath);
+        return $this->repository->exists($filePath);
     }
 
     final public function fileExists(Mock $mock): bool {

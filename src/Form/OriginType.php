@@ -82,6 +82,26 @@ class OriginType extends AbstractType
                     'class' => 'form-check-label'
                 ],
             ])
+            ->add('overwriteRecord', CheckboxType::class, [
+                'label' => 'Overwrite existing mock records?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
+            ->add('readFromRecord', CheckboxType::class, [
+                'label' => 'Return answer from file if record found, rather than original request?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
             ->add('saveOriginalRequest', CheckboxType::class, [
                 'label' => 'Should request be recorded along with mock?',
                 'required' => false,

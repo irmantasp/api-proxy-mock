@@ -18,7 +18,7 @@ class FilePathUtility
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
-        $ignoreFiles = (bool) $ignore['files'];
+        $ignoreFiles = isset($ignore['files']) && $ignore['files'];
 
         return [
             static::getUriProcessed($request, $options),
@@ -33,7 +33,7 @@ class FilePathUtility
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
-        $ignoreFiles = (bool) $ignore['files'];
+        $ignoreFiles = isset($ignore['files']) && $ignore['files'];
 
         return [
             'uri'       => static::getUriProcessed($request, $options),
@@ -48,7 +48,7 @@ class FilePathUtility
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
-        $ignoreFiles = (bool) $ignore['files'];
+        $ignoreFiles = isset($ignore['files']) && $ignore['files'];
 
         return [
             static::getUriProcessed($request, $options),
@@ -63,7 +63,7 @@ class FilePathUtility
     {
         $ignoreHeaders = $ignore['headers'] ?? [];
         $ignoreContent = $ignore['content'] ?? [];
-        $ignoreFiles = (bool) $ignore['files'];
+        $ignoreFiles = isset($ignore['files']) && $ignore['files'];
 
         return [
             'uri'       => static::getUriProcessed($request, $options),

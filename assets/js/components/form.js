@@ -69,4 +69,18 @@ $(function() {
         let originProxyConfigParams = $('#proxy-config-params');
         originProxyConfigParams.toggle($(this).is(':checked'));
     })
+
+    let requestParamsConfig = $('#origin_record');
+    let requestParamsConfigParams = $('#record-config-params');
+    if (requestParamsConfig.is(':checked')) {
+        requestParamsConfigParams.show();
+    }
+    else {
+        originProxyConfigParams.hide();
+    }
+
+    requestParamsConfig.click(function (e) {
+        let requestParamsConfigParams = $('#record-config-params');
+        requestParamsConfigParams.toggle($(this).is(':checked'));
+    })
 });

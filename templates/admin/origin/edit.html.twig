@@ -32,6 +32,18 @@
                             {{ form_label(form.record) }}
                         </div>
 
+                        <div class="form-group" id="record-config-params">
+                            <div class="form-check mb-3">
+                                {{ form_widget(form.overwriteRecord) }}
+                                {{ form_label(form.overwriteRecord) }}
+                            </div>
+
+                            <div class="form-check mb-3">
+                                {{ form_widget(form.readFromRecord) }}
+                                {{ form_label(form.readFromRecord) }}
+                            </div>
+                        </div>
+
                         <div class="form-check mb-3">
                             {{ form_widget(form.saveOriginalRequest) }}
                             {{ form_label(form.saveOriginalRequest) }}

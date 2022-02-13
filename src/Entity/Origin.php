@@ -8,6 +8,8 @@ class Origin
     private ?string $label = null;
     private ?string $host = null;
     private ?bool $record = false;
+    private bool $overwriteRecord = false;
+    private bool $readFromRecord = false;
     private ?bool $saveOriginalRequest = false;
     private ?bool $log = false;
     private array $ignoreHeaders = [];
@@ -92,6 +94,42 @@ class Origin
     final public function setRecord(?bool $record = false): Origin
     {
         $this->record = $record;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    final public function isOverwriteRecord(): bool
+    {
+        return $this->overwriteRecord;
+    }
+
+    /**
+     * @param bool $overwriteRecord
+     * @return Origin
+     */
+    final public function setOverwriteRecord(bool $overwriteRecord): Origin
+    {
+        $this->overwriteRecord = $overwriteRecord;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    final public function isReadFromRecord(): bool
+    {
+        return $this->readFromRecord;
+    }
+
+    /**
+     * @param bool $readFromRecord
+     * @return Origin
+     */
+    final public function setReadFromRecord(bool $readFromRecord): Origin
+    {
+        $this->readFromRecord = $readFromRecord;
         return $this;
     }
 
@@ -346,7 +384,7 @@ class Origin
     /**
      * @return array
      */
-    public function getTransformOptions(): array
+    final public function getTransformOptions(): array
     {
         return $this->transformOptions;
     }
@@ -355,7 +393,7 @@ class Origin
      * @param array $transformOptions
      * @return Origin
      */
-    public function setTransformOptions(array $transformOptions): Origin
+    final public function setTransformOptions(array $transformOptions): Origin
     {
         $this->transformOptions = $transformOptions;
         return $this;

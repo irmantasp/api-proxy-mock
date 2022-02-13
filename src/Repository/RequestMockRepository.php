@@ -17,7 +17,6 @@ class RequestMockRepository extends AbstractFileSystemRepository
 
     final public function exists(string $filePath): bool
     {
-
         return $this->storage->fileExists($filePath);
     }
 
