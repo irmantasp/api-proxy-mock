@@ -94,6 +94,7 @@
                     <th>Method</th>
                     <th>Status</th>
                     <th>Request</th>
+                    <th>Lock</th>
                     <th>Original request URL</th>
                     <th colspan="2"></th>
                 </tr>
@@ -117,8 +118,15 @@
                                     <h4><span class="badge bg-danger">No</span></h4>
                                 {% endif %}
                             </td>
+                            <td class="lock">
+                                {% if mock.lock %}
+                                    <h4><span class="badge bg-success">Yes</span></h4>
+                                {% else %}
+                                    <h4><span class="badge bg-danger">No</span></h4>
+                                {% endif %}
+                            </td>
                             <td>
-                                <a target="_blank" href="{{ mock.origin.host ~ mock.uri }}">{{ mock.uri }}</a>
+                                <a target="_blank" href="{{ mock.origin.host ~ mock.uri }}" title="{{ mock.uri }}">{% if mock.uri|length > 50 %}{{ mock.uri|slice(0, 50) ~ '...' }}{% else %}{{ mock.uri }}{% endif %}</a>
                             </td>
                             <td class="text-end">
                                 <a class="btn" target="_blank" href="{{ '/mock/' ~ mock.origin.name ~ mock.uri }}">View</a>
