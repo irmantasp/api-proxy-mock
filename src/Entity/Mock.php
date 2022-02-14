@@ -19,8 +19,9 @@ class Mock
     private ?string $status;
     private ?array $headers;
     private $content;
+    private bool $lock = false;
 
-    public function __construct()
+    final public function __construct()
     {
         $this->setUuid(Uuid::v4());
         $this->setDate();
@@ -103,7 +104,7 @@ class Mock
     /**
      * @return string|null
      */
-    public function getOriginId(): ?string
+    final public function getOriginId(): ?string
     {
         return $this->originId;
     }
@@ -112,7 +113,7 @@ class Mock
      * @param string|null $originId
      * @return Mock
      */
-    public function setOriginId(?string $originId): Mock
+    final public function setOriginId(?string $originId): Mock
     {
         $this->originId = $originId;
         return $this;
@@ -121,7 +122,7 @@ class Mock
     /**
      * @return Origin|null
      */
-    public function getOrigin(): ?Origin
+    final public function getOrigin(): ?Origin
     {
         return $this->origin;
     }
@@ -130,7 +131,7 @@ class Mock
      * @param Origin|null $origin
      * @return Mock
      */
-    public function setOrigin(?Origin $origin = null): Mock
+    final public function setOrigin(?Origin $origin = null): Mock
     {
         $this->origin = $origin;
         return $this;
@@ -139,7 +140,7 @@ class Mock
     /**
      * @return mixed
      */
-    public function getParsedRequest()
+    final public function getParsedRequest()
     {
         return $this->request;
     }
@@ -147,7 +148,7 @@ class Mock
     /**
      * @return RequestInterface|null
      */
-    public function getRequest(): ?RequestInterface
+    final public function getRequest(): ?RequestInterface
     {
         return $this->request instanceof RequestInterface ? $this->request : null;
     }
@@ -156,7 +157,7 @@ class Mock
      * @param RequestInterface|null $request
      * @return Mock
      */
-    public function setRequest(?RequestInterface $request): Mock
+    final public function setRequest(?RequestInterface $request): Mock
     {
         $this->request = $request;
         return $this;
@@ -165,7 +166,7 @@ class Mock
     /**
      * @return string|null
      */
-    public function getUri(): ?string
+    final public function getUri(): ?string
     {
         return $this->uri;
     }
@@ -174,7 +175,7 @@ class Mock
      * @param string|null $uri
      * @return Mock
      */
-    public function setUri(?string $uri): Mock
+    final public function setUri(?string $uri): Mock
     {
         $this->uri = $uri;
         return $this;
@@ -183,7 +184,7 @@ class Mock
     /**
      * @return string|null
      */
-    public function getMethod(): ?string
+    final public function getMethod(): ?string
     {
         return $this->method;
     }
@@ -192,7 +193,7 @@ class Mock
      * @param string|null $method
      * @return Mock
      */
-    public function setMethod(?string $method): Mock
+    final public function setMethod(?string $method): Mock
     {
         $this->method = $method;
         return $this;
@@ -237,7 +238,7 @@ class Mock
     /**
      * @return mixed
      */
-    public function getContent()
+    final public function getContent()
     {
         return $this->content;
     }
@@ -246,12 +247,28 @@ class Mock
      * @param mixed|null $content
      * @return Mock
      */
-    public function setContent($content): Mock
+    final public function setContent($content): Mock
     {
         $this->content = $content;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    final public function isLock(): bool
+    {
+        return $this->lock;
+    }
 
+    /**
+     * @param bool $lock
+     * @return Mock
+     */
+    final public function setLock(bool $lock): Mock
+    {
+        $this->lock = $lock;
+        return $this;
+    }
 
 }

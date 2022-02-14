@@ -6,6 +6,7 @@ use App\Entity\Mock;
 use App\Entity\Origin;
 use App\Form\Extension\Type\HeaderType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -62,6 +63,20 @@ class OriginMockType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'required' => false
+            ])
+            ->add('lock', CheckboxType::class, [
+                'label' => 'Protect from overwriting',
+                'help' => 'Do not overwrite mock record file, even if proxy settings allow overriding.',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+                'help_attr' => [
+                    'class' => 'form-text'
+                ],
             ])
             ->add('filePath', TextType::class, [
                 'disabled' => !$this->isNew($options),

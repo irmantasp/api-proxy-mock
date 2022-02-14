@@ -64,6 +64,19 @@
                 </div>
             </div>
 
+            <div class="form-group mb-4">
+                <div class="card">
+                    <div class="card-header">Security configuration</div>
+                    <div class="card-body">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.lock) }}
+                            {{ form_label(form.lock) }}
+                            {{ form_help(form.lock) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group mt-5 mb-5">
                 {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'Save'}) }}
                 <a href="{{ path('admin.mock.list', {'origin_id': mock.originId}) }}" class="btn btn-outline-secondary">Cancel</a>

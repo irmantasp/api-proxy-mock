@@ -37,7 +37,7 @@ class ProxyController extends AbstractProxyController
             if ($this->recordExits($mockId, $origin_id) === false) {
                 $mock = $this->createRecord($request, $response, $mockId, $origin);
             }
-            else if ($origin->isOverwriteRecord() === true) {
+            else if ($this->isOverwriteAllowed($mockId, $origin) === true) {
                 $mock = $this->updateRecord($request, $response, $mockId, $origin);
             }
 
@@ -52,6 +52,21 @@ class ProxyController extends AbstractProxyController
     private function recordExits(string $mockId, string $origin_id): bool
     {
         return $this->mockManager->exists($mockId, $origin_id);
+    }
+
+    private function isOverwriteAllowed(string $mockId, Origin $origin): bool {
+        $mock = $this->mockManager->load($mockId, $origin->getName());
+
+        $allow = true;
+        if ($origin->isOverwriteRecord() === false) {
+            $allow = false;
+        }
+
+        if ($mock->isLock() === true) {
+            $allow = false;
+        }
+
+        return $allow;
     }
 
     private function createRecord(ServerRequestInterface $request, Response $response, string $mockId, Origin $origin): ?Mock
